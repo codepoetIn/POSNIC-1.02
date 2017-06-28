@@ -7,7 +7,7 @@ include_once("init.php");
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>POSNIC - Add Customer</title>
+	<title>Sale Perchase System</title>
 	
 	<!-- Stylesheets -->
 	<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet'>
@@ -431,11 +431,11 @@ if(isset($_GET['limit']))
 
 		if ($page > 1) 
 
-			$pagination.= "<a href=\"$targetpage?page=$prev&limit=$limit\">« previous</a>";
+			$pagination.= "<a href=\"$targetpage?page=$prev&limit=$limit\">ï¿½ previous</a>";
 
 		else
 
-			$pagination.= "<span class=\"disabled\">« previous</span>";	
+			$pagination.= "<span class=\"disabled\">ï¿½ previous</span>";	
 
 		
 
@@ -563,11 +563,11 @@ if(isset($_GET['limit']))
 
 		if ($page < $counter - 1) 
 
-			$pagination.= "<a href=\"$targetpage?page=$next&limit=$limit\">next »</a>";
+			$pagination.= "<a href=\"$targetpage?page=$next&limit=$limit\">next ï¿½</a>";
 
 		else
 
-			$pagination.= "<span class=\"disabled\">next »</span>";
+			$pagination.= "<span class=\"disabled\">next ï¿½</span>";
 
 		$pagination.= "</div>\n";		
 
@@ -608,7 +608,7 @@ if(isset($_GET['limit']))
 </table>
   <tr>
 
-        <td align="center"><div style="margin-left:20px;"><div class="pagination"><a href="paginationnijan.php?page=4&limit=1">« previous</a><a href="paginationnijan.php?page=1&limit=1">1</a><a href="paginationnijan.php?page=2&limit=1">2</a><a href="paginationnijan.php?page=3&limit=1">3</a><a href="paginationnijan.php?page=4&limit=1">4</a>5<a href="paginationnijan.php?page=6&limit=1">6</a><a href="paginationnijan.php?page=7&limit=1">7</a><a href="paginationnijan.php?page=8&limit=1">8</a><a href="paginationnijan.php?page=6&limit=1">next »</a></div>
+        <td align="center"><div style="margin-left:20px;"><div class="pagination"><a href="paginationnijan.php?page=4&limit=1">ï¿½ previous</a><a href="paginationnijan.php?page=1&limit=1">1</a><a href="paginationnijan.php?page=2&limit=1">2</a><a href="paginationnijan.php?page=3&limit=1">3</a><a href="paginationnijan.php?page=4&limit=1">4</a>5<a href="paginationnijan.php?page=6&limit=1">6</a><a href="paginationnijan.php?page=7&limit=1">7</a><a href="paginationnijan.php?page=8&limit=1">8</a><a href="paginationnijan.php?page=6&limit=1">next ï¿½</a></div>
 </div></td>
 
       </tr>
@@ -621,7 +621,7 @@ if(isset($_GET['limit']))
 		</div> 
 	</div> 
 		<div id="footer">
-		<p>Any Queries email to <a href="mailto:sridharkalaibala@gmail.com?subject=Stock%20Management%20System">sridharkalaibala@gmail.com</a>.</p>
+		<p> &copy;Copyright 2013</p>
 	
 	</div> <!-- end footer -->
 

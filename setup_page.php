@@ -18,7 +18,7 @@
                     $link = mysql_connect("$host","$user","$pass");
 if (!$link) {
     $data="Database Configration is Not vaild";
-      header("location:instal.php?msg=$data");
+      header("location:install.php?msg=$data");
       exit;
 }
 
@@ -28,7 +28,7 @@ $con=mysqli_connect("$host","$user","$pass");
 $sql="CREATE DATABASE $name";
 if (!mysqli_query($con,$sql)){
     $data="This Database Name Is Already In the DataBase";
-      header("location:database_instal.php?msg=$data");
+      header("location:database_install.php?msg=$data");
       exit;
 }
  }
@@ -379,7 +379,7 @@ fclose($ourFileHandle);
 
 
         }else{
-          header("location:instal.php");
+          header("location:install.php");
         }
  //
 

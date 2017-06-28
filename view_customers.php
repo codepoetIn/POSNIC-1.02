@@ -7,7 +7,7 @@ include_once("init.php");
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>POSNIC - Customer</title>
+	<title> Customer</title>
 	
 	<!-- Stylesheets -->
 	<!--<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet'>-->
@@ -19,19 +19,32 @@ include_once("init.php");
 	<!-- jQuery & JS files -->
 	<?php include_once("tpl/common_js.php"); ?>
 	<script src="js/script.js"></script> 
-        
+ <script  src="dist/js/jquery.ui.draggable.js"></script>
+<script src="dist/js/jquery.alerts.js"></script>
+<link rel="stylesheet"  href="dist/js/jquery.alerts.css" >
         
         <script LANGUAGE="JavaScript">
 <!--
 // Nannette Thacker http://www.shiningstar.net
-function confirmSubmit()
-{
-var agree=confirm("Are you sure you wish to Delete this Entry?");
-if (agree)
-	return true ;
-else
-	return false ;
+console.log();
+function confirmSubmit(id,table,dreturn)
+{ 	     jConfirm('You Want Delete Customer', 'Confirmation Dialog', function (r) {
+           if(r){ 
+               console.log();
+                $.ajax({
+  			url: "delete.php",
+  			data: { id: id, table:table,return:dreturn},
+  			success: function(data) {
+    			window.location = "view_customers.php";
+    			
+                        jAlert('Custmer Is Deleted', 'POSNIC');
+  			}
+		});
+            }
+            return r;
+        });
 }
+
 
 function confirmDeleteSubmit()
 {
@@ -45,15 +58,18 @@ for (i = 0; i < field.length; i++){
 	
 }
 if (flag <1) {
-alert ("You must check one and only one checkbox!");
+  jAlert('You must check one and only one checkbox', 'POSNIC');
 return false;
 }else{
-var agree=confirm("Are you sure you wish to Delete Selected Record?");
-if (agree)
+ jConfirm('You Want Delete Customer', 'Confirmation Dialog', function (r) {
+           if(r){ 
 	
-document.deletefiles.submit();
-else
+document.deletefiles.submit();}
+else {
 	return false ;
+   
+}
+});
    
 }
 }
@@ -85,50 +101,7 @@ for (i = 0; i < field.length; i++)
 }
 // -->
 </script>
-		<script>
-                    
-                    
-	/*$.validator.setDefaults({
-		submitHandler: function() { alert("submitted!"); }
-	});*/
-	$(document).ready(function() {
 	
-		// validate signup form on keyup and submit
-		$("#form1").validate({
-			rules: {
-				name: {
-					required: true,
-					minlength: 3,
-					maxlength: 200
-				},
-				address: {
-					minlength: 3,
-					maxlength: 500
-				},
-				contact1: {
-					minlength: 3,
-					maxlength: 20
-				},
-				contact2: {
-					minlength: 3,
-					maxlength: 20
-				}
-			},
-			messages: {
-				name: {
-					required: "Please enter a supplier Name",
-					minlength: "supplier must consist of at least 3 characters"
-				},
-				address: {
-					minlength: "supplier Address must be at least 3 characters long",
-					maxlength: "supplier Address must be at least 3 characters long"
-				}
-			}
-		});
-	
-	});
-
-	</script>
 
 </head>
 <body>
@@ -177,7 +150,18 @@ for (i = 0; i < field.length; i++)
 					<li><a href="add_customer.php">Add Customer</a></li>
 					<li><a href="view_customers.php">View Customers</a></li>
 				</ul>
-				                                               
+				        <div style="background: #ffffff">
+                                              <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- posnic 120x90 vertical small -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:120px;height:90px"
+     data-ad-client="ca-pub-5212135413309920"
+     data-ad-slot="3677012951"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+                               
+                                </div>                                            
 			</div> <!-- end side-menu -->
 			
 			<div class="side-content fr">
@@ -200,6 +184,7 @@ for (i = 0; i < field.length; i++)
     <input name="searchtxt" type="text" class="round my_text_box" placeholder="Search" > 
 &nbsp;&nbsp;<input name="Search" type="submit" class="my_button round blue   text-upper" value="Search">
 </form>
+
  <form action="" method="get" name="limit_go">
     Page per Record<input name="limit" type="text" class="round my_text_box" id="search_limit" style="margin-left:5px;" value="<?php if(isset($_GET['limit'])) echo $_GET['limit']; else echo "10"; ?>" size="3" maxlength="3">
     <input name="go"  type="button" value="Go" class=" round blue my_button  text-upper" onclick="return confirmLimitSubmit()">
@@ -479,11 +464,12 @@ if(isset($_GET['limit']) && is_numeric($_GET['limit'])){
 
 ?>	
 							<tr>
-								<th>No</th>
-								<th >Supplier Name</th>
-								<th>Contact</th>							
-								<th>Balance</th>
-								<th>Edit /Delete</th>
+								<th width="10%">No</th>
+								<th width="20%">Customer Name</th>
+                                <th width="25%">Customer C.n.i.c</th>
+								<th width="25%">Contact</th>							
+								<th width="10%">Balance</th>
+								<th width="10%">Edit /Delete</th>
                                                                 <th>Select</th>
 							</tr>
 										
@@ -494,11 +480,12 @@ if(isset($_GET['limit']) && is_numeric($_GET['limit'])){
    <td> <?php echo $no+$i; ?></td>
 
    <td><?php echo $row['customer_name']; ?></td>
+   <td> <?php echo $row['customer_contact2']; ?></td>
    <td> <?php echo $row['customer_contact1']; ?></td>
    <td> <?php echo $row['balance'];?></td>
     <td>	<a href="update_customer_details.php?sid=<?php echo $row['id'];?>&table=customer_details&return=view_customers.php"	class="table-actions-button ic-table-edit">
 	</a>
-	<a onclick="return confirmSubmit()" href="delete.php?id=<?php echo $row['id'];?>&table=customer_details&return=view_customers.php" class="table-actions-button ic-table-delete"></a>
+	<a  href="javascript:confirmSubmit(<?php echo $row['id'];?>,'customer_details','view_customers.php')" class="table-actions-button ic-table-delete"></a>
 	</td>
 	<td><input type="checkbox" value="<?php echo $row['id']; ?>" name="checklist[]" id="check_box" /></td>
 
@@ -516,7 +503,7 @@ if(isset($_GET['limit']) && is_numeric($_GET['limit'])){
 		</div> 
 	</div> 
 		<div id="footer">
-		<p>Any Queries email to <a href="mailto:sridharkalaibala@gmail.com?subject=Stock%20Management%20System">sridharkalaibala@gmail.com</a>.</p>
+		<p> &copy;Copyright 2013</p>
 	
 	</div> <!-- end footer -->
 

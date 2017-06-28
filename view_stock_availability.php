@@ -180,7 +180,18 @@ for (i = 0; i < field.length; i++)
 					<li><a href="view_category.php">view Stock Category</a></li>
 					<li><a href="view_stock_availability.php">view Stock Available</a></li>
 				</ul>
-				                                                              
+				      <div style="background: #ffffff">
+                                              <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- posnic 120x90 vertical small -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:120px;height:90px"
+     data-ad-client="ca-pub-5212135413309920"
+     data-ad-slot="3677012951"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+                               
+                                </div>                                                             
                                
 			</div> <!-- end side-menu -->
 			
@@ -513,7 +524,7 @@ while($row = mysql_fetch_array($result))
 		</div> 
 	</div> 
 		<div id="footer">
-		<p>Any Queries email to <a href="mailto:sridharkalaibala@gmail.com?subject=Stock%20Management%20System">sridharkalaibala@gmail.com</a>.</p>
+		<p> &copy;Copyright 2013</p>
 	
 	</div> <!-- end footer -->
 

@@ -302,7 +302,18 @@ p a, p a:hover { border-bottom: 1px dotted; }
 	.menu-logoff:hover { background-image: url("../images/icons/menu/menu-logoff-over.png"); }
 
 .menu-user { background-image: url("../images/icons/menu/menu-user.png"); }
-
+.form tr {
+    height:12px !important;
+   
+     margin: 0px !important;
+}
+.form tr td {
+    height:20px !important;
+     margin: 0px !important;
+}
+.form tr td input{
+   margin: 0px !important;
+}
 
 
 
@@ -319,7 +330,7 @@ form label.alt-label { text-transform: none; }
 
 form input[type="text"], input[type="password"], textarea {
 	border: 1px solid #d9dbdd;
-	padding: 1em 0.625em; /* 16/16 10/16 */
+	padding:.4em; /* 16/16 10/16 */
 	outline: none;
 }
 	form input[type="text"]:hover, input[type="password"]:hover, textarea:hover,
@@ -344,7 +355,7 @@ form input[type="submit"] {
 form#search-form input {
 	border: none;
 	/* The inner text overflows on the BG image, so we're setting a right padding to stop that */
-	padding-right: 3em; /* 36/12 */
+	padding:10px; /* 36/12 */
 }
 	form#search-form input:focus {
 		/* Same as .dark:hover */
@@ -470,12 +481,12 @@ ul#nav {
 /* ---------- TOP + HEADER ---------- */
 div#top-bar {
 	background-color: #2a2e36;
-	padding: 0.625em 0; /* 10/16 */
+	padding: 0em 0; /* 10/16 */
 }
 
 div#header { padding: 1.25em 0; /* 20/16 */ }
 
-div#header-with-tabs { padding: 1.25em 0 0 0; /* 20/16 */ }
+div#header-with-tabs { padding:0.25em 0 0; /* 20/16 */ }
 
 div#login-intro {
 	background: transparent url('../images/login-icon.png') no-repeat left center;
@@ -555,36 +566,30 @@ ul#tabs li a.active-tab, ul#tabs li a.active-tab:hover {
 table { width: 100%; margin-bottom: 1.25em; /* 20/16 */ }
 
 	table th {
-		background-color: #5d6677;
+		background-color: #153450;
 		color: white;
 		text-transform: uppercase;
-		padding: 1.25em 0 1.25em 1.25em; /* 15/12 */
+		padding: 0.55em .7em 0.55em 2.25em; /* 15/12 */
 		border-left: 1px solid #747c8a;
 	}
 		
 	table tbody td {
-		padding: 0.833em 0 0.833em 1.25em; /* 10/12 15/12 */
-		border-left: 1px solid white;
-		border-bottom: 1px solid #f8f9fa;
+		padding: 0.33em 0 0.833em 1.25em; /* 10/12 15/12 */
+		
 	}
 	
 	/* Alternate table row */
-	table tbody tr:nth-child(odd) { background-color: #f8f9fa; }
+        .mytable_row  { background-color: #153450;
+        padding: 10px;
+        padding-bottom: -30px;
+        border-radius:10px; 
+        color: #ffffff;
+        }
 
 	/* Push the first cell to the right so it doesn't stick to the table border */
-	table td:first-child, table th:first-child {
-		width: 4em /* 48/12 */;
-		text-align: center;
-		padding: 0;
-		border: none;
-		border-bottom: 1px solid #f8f9fa;
-	}
 	
-	table td:last-child, table th:last-child {
-		width: 7em; /* 84/12 */
-		text-align: center;
-		padding: 0;
-	}
+	
+	
 	
 	table td.table-footer {
 		text-align: left;
@@ -613,28 +618,19 @@ table.form { width: 400px; margin-bottom: 1.25em; /* 20/16 */ }
 	}
 		
 	table.form tbody td {
-		padding: 0.833em 0 0.833em 1.25em; /* 10/12 15/12 */
-		border-left: 1px solid white;
-		border-bottom: 1px solid #f8f9fa;
+		padding: 0.03em 0 0.03em 1.25em; /* 10/12 15/12 */
+		
 	}
 	
 	/* Push the first cell to the right so it doesn't stick to the table border */
-	table.form td:first-child, table th:first-child {
+	table th:first-child {
 		width: 4em /* 48/12 */;
-		text-align: left;
-		font-weight:900;
-		padding: 0;
-		padding-left: 10px;
-		border: none;
-		border-bottom: 1px solid #f8f9fa;
+	
 	}
 	
-	table.form td:last-child, table th:last-child {
+	table th:last-child {
 		width: 7em; /* 84/12 */
-		text-align: left;
-		padding: 0;
-		padding-left: 10px;
-		padding: 0;
+		
 	}
 	
 	table.form td.table-footer {
@@ -665,7 +661,7 @@ ol, .regular-ul, .custom-ul { margin-bottom: 1.25em; /* 20/16 */ }
 div#content {
 	background: #f8f9fa url('../images/artwork-pattern.png') repeat-x left bottom;
 	border: 1px solid #eeefef;
-	padding: 1.875em 0; /* 30/16 */
+	padding: 0em ; /* 30/16 */
 }
 
 form#login-form {
@@ -674,7 +670,7 @@ form#login-form {
 }
 
 div.side-menu {
-	background: #3f4551;
+	background: #153450;
 	border: 1px solid #eeefef;
 	width: 15%;
 	margin-bottom: 1em; /* 16/16 */
@@ -708,7 +704,7 @@ div.content-module {
 }
 
 div.content-module-heading {
-	background: #3f4551;
+	background: #153450;
 	cursor: pointer;
 }
 

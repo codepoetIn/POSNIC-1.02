@@ -15,15 +15,14 @@
 					</ul> 
 				</li>
 			<li><a href="update_details.php" class="round button dark menu-settings image-left">Update Store Details</a></li>
-				<li><a href="logout.php" class="round button dark menu-logoff image-left">Log out</a></li>
+				<li></li>
 				
 			</ul> <!-- end nav -->
 
 					
 			<form action="#" method="POST" id="search-form" class="fr">
 				<fieldset>
-					<input type="text" id="search-keyword" class="round button dark ic-search image-right" placeholder="Search..." />
-					<input type="hidden" value="SUBMIT" />
+                                    <a href="logout.php" class="round button dark menu-logoff image-left" style="background-color: #cc0000">Log out</a>
 				</fieldset>
 			</form>
 

@@ -7,7 +7,7 @@ include_once("init.php");
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>POSNIC - Payment</title>
+	<title>Payment</title>
 	
 	<!-- Stylesheets -->
 	<!--<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet'>-->
@@ -178,7 +178,7 @@ for (i = 0; i < field.length; i++)
 					<li><a href="view_out_standing.php">Out standings</a></li>
 					
 				</ul>
-				                                                
+				                                                  
 			</div> <!-- end side-menu -->
 			
 			<div class="side-content fr">
@@ -470,7 +470,7 @@ $sql = "SELECT DISTINCT(transactionid) FROM  stock_sales WHERE stock_name LIKE '
 ?>	
 							<tr>
                                                             <th>No</th>
-								<th>Transaction Id</th>
+								<th>CusTomer Name</th>
 								<th>Due Date</th>
 								<th>subtotal </th>							
 								<th>Payment</th>
@@ -498,7 +498,7 @@ while($row = mysql_fetch_array($result))
 
 
    <td>   <?php echo $no+$i; ?></td>
-       	<td width="100"><?php echo $line->transactionid; ?></td>
+       	<td width="100"><?php echo $line->customer_id; ?></td>
 
         <td width="100"><?php echo $phpdate; ?></td>
 
@@ -525,7 +525,7 @@ while($row = mysql_fetch_array($result))
 		</div> 
 	</div> 
 		<div id="footer">
-		<p>Any Queries email to <a href="mailto:sridharkalaibala@gmail.com?subject=Stock%20Management%20System">sridharkalaibala@gmail.com</a>.</p>
+		<p> &copy;Copyright 2013</p>
 	
 	</div> <!-- end footer -->
 

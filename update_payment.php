@@ -40,6 +40,10 @@ include_once("init.php");
                                         required: true
 					
 				},
+				new_payment: {
+                                        required: true
+					
+				},
 				sell: {
                                         required: true
 					
@@ -52,6 +56,9 @@ include_once("init.php");
 				},
 				cost: {
 					required: "Please enter a cost Price"
+				},
+				new_payment: {
+					required: "Please enter a New Payment Amount"
 				},
 				sell: {
 					required: "Please enter a Sell Price"
@@ -121,29 +128,8 @@ function numbersonly(e){
 					<li><a href="view_payments.php">Payments</a></li>
 					<li><a href="view_out_standing.php">Out standings</a></li>                                      
 				</ul>
-				                                                                <div style="width: auto;height: 300px;background: #ffffff">
-                                                                    <br><br> <table><tr><td width="183">Total Number of Products</td></tr><tr>
-    <td width="84"><strong><?php echo  $count = $db->countOfAll("stock_avail");?>&nbsp;</strong></td></tr><tr>
-                                    <tr><td>&nbsp;</td></tr><tr>
-                                            <td width="110">Payment Pending: </td></tr><tr>
-    <td width="110"><strong><?php
-	
-echo $db->queryUniqueValue("select sum(balance) FROM  stock_entries where count1=1 and type='entry'");	
-?></strong></td>   </tr>
-                                    <tr><td>&nbsp;</td></tr><tr>
-                                          <td>Tatal Sales:</td></tr><tr>
-    <td><strong><?php echo  $age = $db->queryUniqueValue("SELECT sum(subtotal) FROM stock_sales where count1=1 ");?></strong></td>   </tr>
-                                     <tr><td>&nbsp;</td></tr><tr>   <td>Outstanding Amount: </td></tr><tr>
-    <td><strong><?php echo $db->queryUniqueValue("select sum(balance) FROM  stock_sales where count1=1 ");
-	?></strong></td></tr>
-                                     <tr><td>&nbsp;</td></tr><tr>     <td>Total number of Suppliers </td></tr><tr>
-    <td><strong><?php echo $count = $db->countOfAll("supplier_details");?></strong></td></tr>
-                                     <tr><td>&nbsp;</td></tr><tr>        <td>Total Number of Customers </td></tr><tr>
-    <td><strong><?php echo $count = $db->countOfAll("customer_details");?></strong></td></tr>
-                                    </table>
-                                                                    <br><br> 
-                                </div>
-			</div> <!-- end side-menu -->
+                        </div>                                                               
+                    <!-- end side-menu -->
 			
 			<div class="side-content fr">
 			
@@ -162,13 +148,16 @@ echo $db->queryUniqueValue("select sum(balance) FROM  stock_entries where count1
                 
                   <table class="form"  border="0" cellspacing="0" cellpadding="0">
 				  <?php
-				if(isset($_POST['id'])){
+				if(isset($_POST['id']) and isset($_POST['new_payment'])){
 	$id=mysql_real_escape_string($_POST['id']);
 			$balance=mysql_real_escape_string($_POST['balance']);
 			$payment=mysql_real_escape_string($_POST['paid']);
 			$customer=mysql_real_escape_string($_POST['customer']);
 			$subtotal=mysql_real_escape_string($_POST['total']);
 			$newpayment=mysql_real_escape_string($_POST['new_payment']);
+                        if($newpayment==""){
+                        $newpayment=00;
+                        }
 			$selected_date=$_POST['date'];
 		  	$selected_date=strtotime( $selected_date );
 			$mysqldate = date( 'Y-m-d', $selected_date );
@@ -181,7 +170,22 @@ echo $db->queryUniqueValue("select sum(balance) FROM  stock_entries where count1
 			{
 			$db->query("INSERT INTO transactions(type,customer,payment,balance,rid,due,subtotal,receiptid) values('sales','$customer',$newpayment,$balance,'$id','$due',$subtotal,'$receiptid')");
 			$max = $db->maxOfAll("id", "transactions");	
-			echo "<br><font color=green size=+1 > [ $id ] Customer Details Updated!</font>" ;
+			
+                         $data=" $id  Customer Details Updated" ;
+				                                            $msg='<p style=color:#153450;font-family:gfont-family:Georgia, Times New Roman, Times, serif>'.$data.'</p>';//
+                                            ?>
+                                                    
+ <script  src="dist/js/jquery.ui.draggable.js"></script>
+<script src="dist/js/jquery.alerts.js"></script>
+<script src="dist/js/jquery.js"></script>
+<link rel="stylesheet"  href="dist/js/jquery.alerts.css" >
+                                                  
+                                            <script type="text/javascript">
+	
+					jAlert('<?php echo  $msg; ?>', 'POSNIC');
+			
+</script>
+                                                        <?php
 			echo "<script>window.open('payment_receipt_print.php?sid=$max','myNewWinsr','width=620,height=800,toolbar=0,menubar=no,status=no,resizable=yes,location=no,directories=no');</script>";
 			}
 			else
@@ -263,7 +267,7 @@ echo $db->queryUniqueValue("select sum(balance) FROM  stock_entries where count1
 	
 	<!-- FOOTER -->
 	<div id="footer">
-		<p>Any Queries email to <a href="mailto:sridharkalaibala@gmail.com?subject=Stock%20Management%20System">sridharkalaibala@gmail.com</a>.</p>
+		<p> &copy;Copyright 2013</p>
 	
 	</div> <!-- end footer -->
 

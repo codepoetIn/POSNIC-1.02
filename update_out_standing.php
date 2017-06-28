@@ -40,6 +40,10 @@ include_once("init.php");
                                         required: true
 					
 				},
+				new_payment: {
+                                        required: true
+					
+				},
 				sell: {
                                         required: true
 					
@@ -52,6 +56,9 @@ include_once("init.php");
 				},
 				cost: {
 					required: "Please enter a cost Price"
+				},
+				new_payment: {
+					required: "Enter The New payment amount"
 				},
 				sell: {
 					required: "Please enter a Sell Price"
@@ -160,7 +167,22 @@ function numbersonly(e){
 			if($db->query("UPDATE stock_entries  SET balance=$balance,payment=$payment,due='$due' where stock_id='$id'"))
 			{
 			$db->query("INSERT INTO transactions(type,supplier,payment,balance,rid,due,subtotal) values('entry','$supplier',$newpayment,$balance,'$id','$due',$subtotal)");
-			echo "<br><font color=green size=+1 > [ $id ] Supplier Details Updated!</font>" ;
+			
+                        $data=" $id  Supplier Details Updated" ;
+				                                            $msg='<p style=color:#153450;font-family:gfont-family:Georgia, Times New Roman, Times, serif>'.$data.'</p>';//
+                                            ?>
+                                                    
+ <script  src="dist/js/jquery.ui.draggable.js"></script>
+<script src="dist/js/jquery.alerts.js"></script>
+<script src="dist/js/jquery.js"></script>
+<link rel="stylesheet"  href="dist/js/jquery.alerts.css" >
+                                                  
+                                            <script type="text/javascript">
+	
+					jAlert('<?php echo  $msg; ?>', 'POSNIC');
+			
+</script>
+                                                        <?php
 			}
 			else
 			echo "<br><font color=red size=+1 >Problem in Updation !</font>" ;
@@ -240,7 +262,7 @@ function numbersonly(e){
 	
 	<!-- FOOTER -->
 	<div id="footer">
-		<p>Any Queries email to <a href="mailto:sridharkalaibala@gmail.com?subject=Stock%20Management%20System">sridharkalaibala@gmail.com</a>.</p>
+		<p> &copy;Copyright 2013</p>
 	
 	</div> <!-- end footer -->
 

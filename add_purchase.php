@@ -1,13 +1,112 @@
 <?php
 include_once("init.php");
+	if(isset($_POST['supplier']) and isset($_POST['stock_name'])){
+					$_POST = $gump->sanitize($_POST);
+					$gump->validation_rules(array(
+						'supplier'=> 'required|max_len,100|min_len,3'
+						
+						
+						
 
+					));
+				
+					$gump->filter_rules(array(
+						'supplier'    	  => 'trim|sanitize_string|mysql_escape'
+						
+
+					));
+				
+					$validated_data = $gump->run($_POST);
+					$supplier 	= "";
+					$stockid 	= "";
+					$stock_name     = "";
+					$cost    	= "";
+					$bill_no 	= "";
+			
+
+					if($validated_data === false) {
+							echo $gump->get_readable_errors(true);
+					} else {
+                                            $username = $_SESSION['username'];
+                                            
+							$stockid=mysql_real_escape_string($_POST['stockid']);
+						
+							$bill_no =mysql_real_escape_string($_POST['bill_no']);
+							$supplier=mysql_real_escape_string($_POST['supplier']);
+							$address=mysql_real_escape_string($_POST['address']);
+							$contact=mysql_real_escape_string($_POST['contact']);
+							$stock_name=$_POST['stock_name'];
+                                                       
+                                                     $count = $db->countOf("supplier_details", "supplier_name='$supplier'");
+							if($count==0)
+							{
+                                                        
+														 $db->query("insert into supplier_details(supplier_name,supplier_address,supplier_contact1)
+														 
+														  					values('$supplier','$address','$contact')");   
+                                                        }
+                                                        $quty=$_POST['quty'];
+							$date=  date("d M Y h:i A") ;
+							$sell=$_POST['sell'];
+							$cost=$_POST['cost'];
+							$total=$_POST['total'];
+							$subtotal=$_POST['subtotal'];
+							$description=mysql_real_escape_string($_POST['description']);
+							$due=mysql_real_escape_string($_POST['duedate']);
+							$payment=mysql_real_escape_string($_POST['payment']);
+							$balance=mysql_real_escape_string($_POST['balance']);
+							$mode=mysql_real_escape_string($_POST['mode']);
+                                   
+					  $autoid=$_POST['stockid'];
+					  $autoid1=$autoid;                   
+                                             $selected_date=$_POST['date'];
+		  	$selected_date=strtotime( $selected_date );
+			$date = date( 'Y-m-d H:i:s', $selected_date );           
+                                            for($i=0;$i<count($stock_name);$i++)
+                                            {
+	$count = $db->countOf("stock_avail", "name='$stock_name[$i]'");
+			if($count == 0)
+			{
+			$db->query("insert into stock_avail(name,quantity) values('$stock_name[$i]',$quty[$i])");
+			//echo "<br><font color=green size=+1 >New Stock Entry Inserted !</font>" ;
+			
+			$db->query("insert into stock_details(stock_id,stock_name,stock_quatity,supplier_id,company_price,selling_price) values('$autoid','$stock_name[$i]',0,'$supplier',$cost[$i],$sell[$i])");
+
+			  
+			$db->query("INSERT INTO stock_entries(stock_id,stock_name, stock_supplier_name, quantity, company_price, selling_price, opening_stock, closing_stock, date, username, type,salesid, total, payment, balance, mode, description, due, subtotal,count1,billnumber) VALUES ( '$autoid1','$stock_name[$i]','$supplier',$quty[$i],$cost[$i],$sell[$i],0,$quty[$i],'$date','$username','entry','pr12' ,$total[$i],$payment,$balance,'$mode','$description','$due',$subtotal,$i+1,'$bill_no')"); 
+			
+			}
+			
+			else if($count==1) 
+			{
+
+				$amount = $db->queryUniqueValue("SELECT quantity FROM stock_avail WHERE name='$stock_name[$i]'");
+				$amount1 = $amount + $quty[$i];
+				$db->execute("UPDATE stock_avail SET quantity=$amount1 WHERE name='$stock_name[$i]'");
+			$db->query("INSERT INTO stock_entries(stock_id,stock_name,stock_supplier_name,quantity,company_price,selling_price,opening_stock,closing_stock,date,username,type,total,payment,balance,mode,description,due,subtotal,count1,billnumber) VALUES ('$autoid1','$stock_name[$i]','$supplier',$quty[$i],$cost[$i],$sell[$i],$amount,$amount1,'$date','$username','entry',$total[$i],$payment,$balance,'$mode','$description','$due',$subtotal,$i+1,'$bill_no')"); 
+			//INSERT INTO `stock`.`stock_entries` (`id`, `stock_id`, `stock_name`, `stock_supplier_name`, `category`, `quantity`, `company_price`, `selling_price`, `opening_stock`, `closing_stock`, `date`, `username`, `type`, `salesid`, `total`, `payment`, `balance`, `mode`, `description`, `due`, `subtotal`, `count1`) 
+			//VALUES (NULL, '$autoid1', '$stock_name[$i]', '$supplier', '', '$quantity', '$brate', '$srate', '$amount', '$amount1', '$mysqldate', 'sdd', 'entry', 'Sa45', '432.90', '2342.90', '24.34', 'cash', 'sdflj', '2010-03-25 12:32:02', '45645', '1');
+			
+			
+			
+			
+			
+				
+                        }
+			}		
+                        $msg="Parchase order Added successfully Ref: ". $_POST['stockid']."" ;
+				header("Location: add_purchase.php?msg=$msg");
+							}
+						
+                                        }
+                                       
 ?>
 <!DOCTYPE html>
 
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>POSNIC - Add Purchase</title>
+	<title> Add Purchase</title>
 	
 	<!-- Stylesheets -->
 	<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet'>
@@ -17,7 +116,30 @@ include_once("init.php");
 	
 	<!-- Optimize for mobile devices -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-	
+	    <script>
+    
+    
+    
+    
+function purchase_report_pdf_fn() 
+{ 
+ window.open("purchase_pdf_report.php?stockid="+$('#stockid').val()+"&date="+$('#date').val()+"&bill_no="+$('#bill_no').val()
+ +"&supplier="+$('#supplier').val()	+"&address="+$('#address').val()	+"&contact="+$('#contact').val()
+ +"&item="+$('#stock_name[]').val()	 +"&quty="+$('#quty[]').val()	+"&cost="+$('#cost[]').val()	+"&sell="+$('#sell[]').val()
+ +"&total="+$('#jibi[]').val()		+"&payment="+$('#payment').val()
+ 	+"&balance="+$('#balance').val()	+"&grand_total="+$('#grand_total').val()
+ +"&duedate="+$('#duedate').val()	 	+"&description="+$('#description').val(),
+
+ "myNewWinsr","width=500,height=500,toolbar=0,menubar=no,status=no,resizable=yes,location=no,directories=no,scrollbars=yes"); 
+}
+    
+    
+    </script>
+
+    
+    
+    
+    
 	<!-- jQuery & JS files -->
 	<?php include_once("tpl/common_js.php"); ?>
 	<script src="js/script.js"></script>  
@@ -181,10 +303,12 @@ function numbersonly(e){
     total=document.getElementById('total').value;
     item=document.getElementById('guid').value;
     main_total=document.getElementById('posnic_total').value;
+    roll=parseInt(document.getElementById('roll_no').value);
  
-    $('<tr id='+item+'><td><input type=hidden value='+item+' id='+item+'id ><input type=text name="stock_name[]"  id='+item+'st style="width: 150px" class="round  my_with" ></td><td><input type=text name=quty[] readonly="readonly" value='+quty+' id='+item+'q class="round  my_with" style="text-align:right;" ></td><td><input type=text name=cost[] readonly="readonly" value='+cost+' id='+item+'c class="round  my_with" style="text-align:right;"></td><td><input type=text name=sell[] readonly="readonly" value='+sell+' id='+item+'s class="round  my_with" style="text-align:right;"  ></td><td><input type=text name=stock[] readonly="readonly" value='+disc+' id='+item+'p class="round  my_with" style="text-align:right;" ></td><td><input type=text name=jibi[] readonly="readonly" value='+total+' id='+item+'to class="round  my_with" style="width: 120px;margin-left:20px;text-align:right;" ><input type=hidden name=total[] id='+item+'my_tot value='+main_total+'> </td><td><input type=button value="" id='+item+' style="width:30px;border:none;height:30px;background:url(images/edit_new.png)" class="round" onclick="edit_stock_details(this.id)"  ></td><td><input type=button value="" id='+item+' style="width:30px;border:none;height:30px;background:url(images/close_new.png)" class="round" onclick= $(this).closest("tr").remove() ></td></tr>').fadeIn("slow").appendTo('#item_copy_final');
+    $('<tr id='+item+'><td><lable id='+item+'roll class=jibi007 >'+roll+'</label></td><td><input type=hidden readonly=readonly value='+item+' id='+item+'id ><input type=text name="stock_name[]"  id='+item+'st style="width: 150px" class="round  my_with" ></td><td><input type=text name=quty[] readonly="readonly" value='+quty+' id='+item+'q class="round  my_with" style="text-align:right;" ></td><td><input type=text name=cost[] readonly="readonly" value='+cost+' id='+item+'c class="round  my_with" style="text-align:right;"></td><td><input type=text name=sell[] readonly="readonly" value='+sell+' id='+item+'s class="round  my_with" style="text-align:right;"  ></td><td><input type=text name=stock[] readonly="readonly" value='+disc+' id='+item+'p class="round  my_with" style="text-align:right;" ></td><td><input type=text name=jibi[] readonly="readonly" value='+total+' id='+item+'to class="round  my_with" style="width: 120px;margin-left:20px;text-align:right;" ><input type=hidden name=total[] id='+item+'my_tot value='+main_total+'> </td><td><input type=button value="" id='+item+' style="width:30px;border:none;height:30px;background:url(images/edit_new.png)" class="round" onclick="edit_stock_details(this.id)"  ></td><td><input type=button value="" id='+item+' style="width:30px;border:none;height:30px;background:url(images/close_new.png)" class="round" onclick=reduce_balance("'+item+'");$(this).closest("tr").remove(); ></td></tr>').fadeIn("slow").appendTo('#item_copy_final');
     document.getElementById('quty').value="";
     document.getElementById('cost').value="";
+    document.getElementById('roll_no').value=roll+1;
     document.getElementById('sell').value="";
     document.getElementById('stock').value="";
     document.getElementById('total').value="";
@@ -229,6 +353,29 @@ function numbersonly(e){
     }
  
     }
+    function reduce_balance(id){
+ var minus=parseFloat(document.getElementById(id+"my_tot").value);
+  document.getElementById('grand_total').value=parseFloat(document.getElementById('grand_total').value)-minus;
+  document.getElementById('main_grand_total').value=parseFloat(document.getElementById('grand_total').value);
+//var count=parseInt(document.getElementById('roll_no').value)
+var status=1;
+var elements = document.getElementsByClassName('jibi007');
+var j=1;
+var my_id=id+'roll';
+for (var i = 0; i < elements.length; i++) {
+    elements[0].value=1;
+   if(parseFloat(document.getElementById(my_id).innerHTML)==i){
+     elements[i].innerHTML =parseFloat(elements[i-1].innerHTML)
+   }else{
+       if(i!=0){
+         elements[i].innerHTML =parseFloat(elements[i-1].innerHTML)+1;
+        j++;
+       }
+   }
+     document.getElementById('roll_no').value=elements.length;
+}
+   //console.log(id);
+}
     function total_amount(){
     balance_amount();
                
@@ -327,6 +474,7 @@ function balance_amount(){
 
 	<!-- TOP BAR -->
 	<?php include_once("tpl/top_bar.php"); ?>
+	<?php include_once("dist/bootstrap.php"); ?>
 	<!-- end top-bar -->
 	
 	
@@ -389,111 +537,30 @@ function balance_amount(){
 							
 					<?php
 					//Gump is libarary for Validatoin
-					 if(isset($_GET['msg'])){
-                                            echo $_GET['msg'];
-                                        }
-					if(isset($_POST['supplier']) and isset($_POST['stock_name'])){
-					$_POST = $gump->sanitize($_POST);
-					$gump->validation_rules(array(
-						'supplier'=> 'required|max_len,100|min_len,3'
-						
-						
-						
-
-					));
+                                         if(isset($_GET['msg'])){
+                                             $data=$_GET['msg'];
+                                            $msg='<p style=color:#153450;font-family:gfont-family:Georgia, Times New Roman, Times, serif>'.$data.'</p>';//
+                                            ?>
+                                                    
+ <script  src="dist/js/jquery.ui.draggable.js"></script>
+<script src="dist/js/jquery.alerts.js"></script>
+<script src="dist/js/jquery.js"></script>
+<link rel="stylesheet"  href="dist/js/jquery.alerts.css" >
+                                                  
+                                            <script type="text/javascript">
+	
+					jAlert('<?php echo  $msg; ?>', 'POSNIC');
+			
+</script>
+                                                        <?php
+                                         }
 				
-					$gump->filter_rules(array(
-						'supplier'    	  => 'trim|sanitize_string|mysql_escape'
-						
-
-					));
-				
-					$validated_data = $gump->run($_POST);
-					$supplier 	= "";
-					$stockid 	= "";
-					$stock_name     = "";
-					$cost    	= "";
-					$bill_no 	= "";
-			
-
-					if($validated_data === false) {
-							echo $gump->get_readable_errors(true);
-					} else {
-                                            $username = $_SESSION['username'];
-                                            
-							$stockid=mysql_real_escape_string($_POST['stockid']);
-						
-							$bill_no =mysql_real_escape_string($_POST['bill_no']);
-							$supplier=mysql_real_escape_string($_POST['supplier']);
-							$address=mysql_real_escape_string($_POST['address']);
-							$contact=mysql_real_escape_string($_POST['contact']);
-							$stock_name=$_POST['stock_name'];
-                                                       
-                                                     $count = $db->countOf("supplier_details", "supplier_name='$supplier'");
-							if($count==0)
-							{
-                                                         $db->query("insert into supplier_details(supplier_name,supplier_address,supplier_contact1) values('$supplier','$address','$contact')");   
-                                                        }
-                                                        $quty=$_POST['quty'];
-							$date=  date("d M Y h:i A") ;
-							$sell=$_POST['sell'];
-							$cost=$_POST['cost'];
-							$total=$_POST['total'];
-							$subtotal=$_POST['subtotal'];
-							$description=mysql_real_escape_string($_POST['description']);
-							$due=mysql_real_escape_string($_POST['duedate']);
-							$payment=mysql_real_escape_string($_POST['payment']);
-							$balance=mysql_real_escape_string($_POST['balance']);
-							$mode=mysql_real_escape_string($_POST['mode']);
-                                   
-					  $autoid=$_POST['stockid'];
-					  $autoid1=$autoid;                   
-                                             $selected_date=$_POST['date'];
-		  	$selected_date=strtotime( $selected_date );
-			$date = date( 'Y-m-d H:i:s', $selected_date );           
-                                            for($i=0;$i<count($stock_name);$i++)
-                                            {
-	$count = $db->countOf("stock_avail", "name='$stock_name[$i]'");
-			if($count == 0)
-			{
-			$db->query("insert into stock_avail(name,quantity) values('$stock_name[$i]',$quty[$i])");
-			echo "<br><font color=green size=+1 >New Stock Entry Inserted !</font>" ;
-			
-			$db->query("insert into stock_details(stock_id,stock_name,stock_quatity,supplier_id,company_price,selling_price) values('$autoid','$stock_name[$i]',0,'$supplier',$cost[$i],$sell[$i])");
-
-			  
-			$db->query("INSERT INTO stock_entries(stock_id,stock_name, stock_supplier_name, quantity, company_price, selling_price, opening_stock, closing_stock, date, username, type, total, payment, balance, mode, description, due, subtotal,count1,billnumber) VALUES ( '$autoid1','$stock_name[$i]','$supplier',$quty[$i],$cost[$i],$sell[$i],0,$quty[$i],'$date','$username','entry',$total[$i],$payment,$balance,'$mode','$description','$due',$subtotal,$i+1,'$bill_no')"); 
-			
-			}
-			
-			else if($count==1) 
-			{
-
-				$amount = $db->queryUniqueValue("SELECT quantity FROM stock_avail WHERE name='$stock_name[$i]'");
-				$amount1 = $amount + $quty[$i];
-				$db->execute("UPDATE stock_avail SET quantity=$amount1 WHERE name='$stock_name[$i]'");
-			$db->query("INSERT INTO stock_entries(stock_id,stock_name,stock_supplier_name,quantity,company_price,selling_price,opening_stock,closing_stock,date,username,type,total,payment,balance,mode,description,due,subtotal,count1,billnumber) VALUES ('$autoid1','$stock_name[$i]','$supplier',$quty[$i],$cost[$i],$sell[$i],$amount,$amount1,'$date','$username','entry',$total[$i],$payment,$balance,'$mode','$description','$due',$subtotal,$i+1,'$bill_no')"); 
-			//INSERT INTO `stock`.`stock_entries` (`id`, `stock_id`, `stock_name`, `stock_supplier_name`, `category`, `quantity`, `company_price`, `selling_price`, `opening_stock`, `closing_stock`, `date`, `username`, `type`, `salesid`, `total`, `payment`, `balance`, `mode`, `description`, `due`, `subtotal`, `count1`) 
-			//VALUES (NULL, '$autoid1', '$stock_name[$i]', '$supplier', '', '$quantity', '$brate', '$srate', '$amount', '$amount1', '$mysqldate', 'sdd', 'entry', 'Sa45', '432.90', '2342.90', '24.34', 'cash', 'sdflj', '2010-03-25 12:32:02', '45645', '1');
-			
-			
-			
-			
-			
-				
-                        }
-			}		
-                        $msg="<br><font color=green size=6px >Parchase order Added successfully Ref: [". $_POST['stockid']."] !</font>" ;
-				header("Location: add_purchase.php?msg=$msg");
-							}
-						
-                                        }
-                                       
 				?>
 				
 				<form name="form1" method="post" id="form1" action="">
                                     <input type="hidden" id="posnic_total" >
-                  <p><strong>Add Stock/Product </strong> - Add New ( Control +2)</p>
+                                    <input type="hidden" id="roll_no" value="1" >
+            <div class="mytable_row ">
                   <table class="form"  border="0" cellspacing="0" cellpadding="0">
                     <tr>
                                <?php
@@ -502,12 +569,12 @@ function balance_amount(){
 					  $autoid="PR".$max."";
 					  ?>
                       <td>Stock ID:</td>
-                      <td><input name="stockid" type="text" id="stockid" readonly="readonly" maxlength="200"  class="round default-width-input" style="width:130px " value="<?php echo $autoid ?>" /></td>
+                      <td><input name="stockid" type="text" id="stockid" readonly maxlength="200"  class="round default-width-input" style="width:130px " value="<?php echo $autoid ?>" /></td>
                        
                       <td>Date:</td>
-                      <td><input  name="date" id="test1" placeholder="" value="<?php echo date('d-m-Y');?>" type="text" id="name" maxlength="200"  class="round default-width-input"  /></td>
+                      <td><input  name="date" placeholder="" value="<?php echo date('d-m-Y');?>" type="text" id="name" maxlength="200"  class="round default-width-input"  /></td>
                       <td><span class="man">*</span>Bill No:</td>
-                      <td><input name="bill_no" placeholder="ENTER BILL NO" type="text" id="bill_no" maxlength="200"  class="round default-width-input" style="width:120px " /></td>
+                      <td><input name="bill_no" placeholder="ENTER BILL NO" type="text" id="bill_no" maxlength="200"  value="<?php echo $autoid ?>"class="round default-width-input" style="width:120px " /></td>
                        
                     </tr>
                     <tr>
@@ -522,31 +589,33 @@ function balance_amount(){
                        
                     </tr>
                   </table>
+            </div><br>
+                                    <div align="center">
                   <input type="hidden" id="guid">
                   <input type="hidden" id="edit_guid">
                   <table class="form" >
-                      <tr>
+                      <tr><td>&nbsp;</td>
                           <td>Item:</td>
                           <td>Quantity:</td>
                           <td>Cost:</td>
                           <td>Selling:</td>
                           <td>Available Stock:</td>
                           <td> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total</td>
-                           <td> &nbsp;</td>
+                           <td>&nbsp; </td>
                       </tr>
                         <tr>
-                 
+                 <td>&nbsp;</td>
                         <td><input name=""  type="text" id="item"  maxlength="200"  class="round default-width-input " style="width: 150px"   /></td>
                        
                         <td><input name=""  type="text" id="quty"  maxlength="200"   class="round default-width-input my_with" onKeyPress="quantity_chnage(event);return numbersonly(event);" onkeyup="total_amount();unique_check()"    /></td>
                      
-                      <td><input name=""  type="text" id="cost" readonly="readonly" maxlength="200"  class="round default-width-input my_with"   /></td>
+                      <td><input name=""  type="text" id="cost" readonly maxlength="200"  class="round default-width-input my_with"   /></td>
                        
                       
-                      <td><input name=""  type="text" id="sell" readonly="readonly" maxlength="200"  class="round default-width-input my_with"   /></td>
+                      <td><input name=""  type="text" id="sell" readonly maxlength="200"  class="round default-width-input my_with"   /></td>
                             
                                         
-                      <td><input name=""  type="text" id="stock" readonly="readonly" maxlength="200"  class="round  my_with"   /></td>
+                      <td><input name=""  type="text" id="stock" readonly maxlength="200"  class="round  my_with"   /></td>
                       
                       
                       <td><input name=""  type="text" id="total" maxlength="200"  class="round default-width-input " style="width:120px;  margin-left: 20px"  /></td>
@@ -555,31 +624,31 @@ function balance_amount(){
                     </tr>
                   </table>
                          <div style="overflow:auto ;max-height:300px;  ">
-                           <table class="form" id="item_copy_final">
+                           <table class="form" id="item_copy_final"  style="margin-left:45px ">
                     
                     </table>
                    </div>
                      
-                  
-                    
+                                    </div>
+                      <div class="mytable_row ">
                   <table class="form">
-                    <tr> <td> &nbsp;</td>
+                    <tr> <td>&nbsp; </td>
                         <td>Payment:<input type="text"  class="round" onkeyup=" balance_amount(); " onkeypress="return numbersonly(event);"  name="payment" id="payment" >
                       </td>
-                      <td> &nbsp;</td>
-                      <td>Balance:<input type="text"  class="round" id="balance" readonly="readonly" name="balance" >               
+                      <td>&nbsp; </td>
+                      <td>Balance:<input type="text"  class="round" id="balance" readonly name="balance" >               
                       </td>
-                      <td> &nbsp;</td>
+                      <td>&nbsp; </td>
                    
-                      <td> &nbsp;</td><td> &nbsp;</td><td> &nbsp;</td><td> &nbsp;</td>
-                       <td>Grand Total:<input type="hidden" readonly="readonly" id="grand_total" name="subtotal" > 
-                           <input type="text" id="main_grand_total" class="round default-width-input" onkeypress="return numbersonly(event)" readonly="readonly" style="text-align:right;width: 120px" >
+                      <td>&nbsp; </td><td>&nbsp; </td><td>&nbsp; </td><td>&nbsp; </td>
+                       <td>Grand Total:<input type="hidden" readonly id="grand_total" name="subtotal" > 
+                           <input type="text" id="main_grand_total" class="round default-width-input" onkeypress="return numbersonly(event)" readonly style="text-align:right;width: 120px" name="grand_total">
                     </td>
                   </tr> </table> 
                   <table>
                   <tr> <td>Mode &nbsp;</td><td>
                       <select name="mode">
-                               <option value="cash">Cash</option>
+                        
                              <option value="cash">Cash</option>
                       <option value="cheque">Cheque</option>
                  
@@ -589,24 +658,24 @@ function balance_amount(){
                       <td>
                        Due Date:<input type="text" name="duedate" id="test2" value="<?php echo date('d-m-Y');?>" class="round">
                   </td>
-                    <td> &nbsp;</td><td> &nbsp;</td>              
+                    <td>&nbsp; </td><td>&nbsp; </td>              
              
                   <td>Description</td>
                   <td><textarea name="description"></textarea></td>
-                  <td> &nbsp;</td>
-                  <td> &nbsp;</td>
-                  <td> &nbsp;</td>
+                  <td>&nbsp; </td>
+                  <td>&nbsp; </td>
+                  <td>&nbsp; </td>
                   </tr>
                   </table>
                   <table class="form">
                     <tr>
                      <td>
-                        <input  class="button round blue image-right ic-add text-upper" type="submit" name="Submit" value="Add">
+                        <input  class="button round blue image-right ic-add text-upper" type="submit" name="Submit" value="Add" >
                      </td><td>			(Control + S)
                      <input class="button round red   text-upper"  type="reset" name="Reset" value="Reset"> </td>
-                     <td> &nbsp;</td> <td> &nbsp;</td>
+                     <td>&nbsp; </td> <td>&nbsp; </td>
                     </tr>
-                </table>
+                </table></div>
                 </form>
 						
 				
@@ -625,7 +694,8 @@ function balance_amount(){
 	
 	<!-- FOOTER -->
 	<div id="footer">
-		<p>Any Queries email to <a href="mailto:sridharkalaibala@gmail.com?subject=Stock%20Management%20System">sridharkalaibala@gmail.com</a>.</p>
+		<p> &copy;Copyright 2013</p>
+
 	
 	</div> <!-- end footer -->
 

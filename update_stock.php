@@ -152,7 +152,24 @@ function numbersonly(e){
 			
 				
 			if($db->query("UPDATE stock_details  SET stock_name ='$name',supplier_id='$supplier',company_price='$cost',selling_price='$sell',category='$Category',date='$date'  where id=$id"))
-			echo "<br><font color=green size=+1 > [ $name ] Supplier Details Updated!</font>" ;
+			{ 
+                        $data=" $name   Supplier Details Updated" ;
+				                                            $msg='<p style=color:#153450;font-family:gfont-family:Georgia, Times New Roman, Times, serif>'.$data.'</p>';//
+                                            ?>
+                                                    
+ <script  src="dist/js/jquery.ui.draggable.js"></script>
+<script src="dist/js/jquery.alerts.js"></script>
+<script src="dist/js/jquery.js"></script>
+<link rel="stylesheet"  href="dist/js/jquery.alerts.css" >
+                                                  
+                                            <script type="text/javascript">
+	
+					jAlert('<?php echo  $msg; ?>', 'POSNIC');
+			
+</script>
+                                                        <?php
+                        
+                        }
 			else
 			echo "<br><font color=red size=+1 >Problem in Updation !</font>" ;
 			
@@ -232,7 +249,7 @@ function numbersonly(e){
 	
 	<!-- FOOTER -->
 	<div id="footer">
-		<p>Any Queries email to <a href="mailto:sridharkalaibala@gmail.com?subject=Stock%20Management%20System">sridharkalaibala@gmail.com</a>.</p>
+		<p> &copy;Copyright 2013</p>
 	
 	</div> <!-- end footer -->
 

@@ -7,7 +7,6 @@ else
 {
 if(isset($_GET['from_sales_date']) && isset($_GET['to_sales_date']) && $_GET['from_sales_date']!='' && $_GET['to_sales_date']!='' )
 {
-
 	error_reporting (E_ALL ^ E_NOTICE);
 			$selected_date=$_GET['from_sales_date'];
 		  	$selected_date=strtotime( $selected_date );
@@ -46,36 +45,16 @@ document.getElementById('printButton').style.visibility="visible";
                       <?php $line4 = $db->queryUniqueObject("SELECT * FROM store_details ");
 				 ?>
                   <strong><?php echo $line4->name; ?></strong><br />
-                  <?php echo $line4->address; ?>,<?php echo $line4->place; ?>, <br />
-                  <?php echo $line4->city; ?>,<?php echo $line4->pin; ?><br/>
-                  Website<strong>:<?php echo $line4->web; ?></strong><br>Email<strong>:<?php echo $line4->email; ?></strong><br />Phone
-                      <strong>:<?php echo $line4->phone; ?></strong>
+                  <?php echo $line4->address; ?><br/>
+                  
+             Phone<strong>:<?php echo $line4->phone; ?></strong>
                   <br />
                   <?php ?>
               </div>
-      <table width="595" border="0" cellspacing="0" cellpadding="0">
+      <table width="695" border="0" cellspacing="0" cellpadding="0">
        
         <tr>
           <td height="30" align="center"><strong>Sales Report </strong></td>
-        </tr>
-        <tr>
-          <td height="30" align="center">&nbsp;</td>
-        </tr>
-        <tr>
-          <td align="right"><table width="300" border="0" cellspacing="0" cellpadding="0">
-            <tr>
-              <td width="150"><strong>Total Sales </strong></td>
-              <td width="150">&nbsp;<?php echo  $age = $db->queryUniqueValue("SELECT sum(subtotal) FROM stock_sales where count1=1 AND date BETWEEN '$fromdate' AND '$todate' ");?></td>
-            </tr>
-            <tr>
-              <td><strong>Received Amount</strong></td>
-              <td>&nbsp;<?php echo  $age = $db->queryUniqueValue("SELECT sum(payment) FROM stock_sales where count1=1 AND date BETWEEN '$fromdate' AND '$todate' ");?></td>
-            </tr>
-            <tr>
-              <td width="150"><strong>Total OutStanding </strong></td>
-              <td width="150">&nbsp;<?php echo  $age = $db->queryUniqueValue("SELECT sum(balance) FROM stock_sales where count1=1 AND date BETWEEN '$fromdate' AND '$todate' ");?></td>
-            </tr>
-          </table></td>
         </tr>
         <tr>
           <td width="45"><hr></td>
@@ -97,8 +76,9 @@ document.getElementById('printButton').style.visibility="visible";
           <td><table width="100%"  border="0" cellspacing="0" cellpadding="0">
               <tr>
                 <td><strong>Date</strong></td>
-                <td><strong>Sales ID </strong></td>
+                <td><strong>Product </strong></td>
                 <td><strong>Customer</strong></td>
+                <td><strong>Total Quantity</strong></td>
                 <td><strong>Paid</strong></td>
                 <td><strong>Balance</strong></td>
                 <td><strong>Total</strong></td>
@@ -112,7 +92,7 @@ document.getElementById('printButton').style.visibility="visible";
                 <td>&nbsp;</td>
               </tr>
 			  <?php 
-			  $result = $db->query("SELECT * FROM stock_sales where count1=1 AND date BETWEEN '$fromdate' AND '$todate' ");
+			  $result = $db->query("SELECT * FROM stock_sales where count1=1  AND date BETWEEN '$fromdate' AND '$todate' ");
 while ($line = $db->fetchNextObject($result)) {
 ?>
 			
@@ -121,8 +101,9 @@ while ($line = $db->fetchNextObject($result)) {
  		$phpdate = strtotime( $mysqldate );
  		$phpdate = date("d/m/Y",$phpdate);
 		echo $phpdate; ?></td>
-                <td><?php echo $line->transactionid; ?></td>
+                <td><?php echo $line->stock_name; ?></td>
                 <td><?php echo $line->customer_id; ?></td>
+                 <td><?php echo $line->quantity; ?></td>
                 <td><?php echo $line->payment; ?></td>
                 <td><?php echo $line->balance; ?></td>
                 <td><?php echo $line->subtotal; ?></td>
@@ -142,12 +123,39 @@ while ($line = $db->fetchNextObject($result)) {
         </tr>
     </table></td>
   </tr>
+  <tr>
+          <td align="center">
+          <table width="300" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="150"><strong>Total Sales </strong></td>
+              <td width="150">&nbsp;<?php echo  $age = $db->queryUniqueValue("SELECT sum(subtotal) FROM stock_sales where count1=1  AND date BETWEEN '$fromdate' AND '$todate'  ");?></td>
+            </tr>
+            <tr>
+              <td><strong>Received Amount</strong></td>
+              <td>&nbsp;<?php echo  $age = $db->queryUniqueValue("SELECT sum(payment) FROM stock_sales where count1=1 AND date BETWEEN '$fromdate' AND '$todate' ");?></td>
+            </tr>
+            <tr>
+              <td width="150"><strong>Total OutStanding </strong></td>
+              <td width="150">&nbsp;<?php echo  $age = $db->queryUniqueValue("SELECT sum(balance) FROM stock_sales where count1=1 AND date BETWEEN '$fromdate' AND '$todate' ");?></td>
+            </tr>
+          </table>
+          </td>
+        </tr>
+        
 </table>
 
+
 </body>
+<footer>
+
+<p align="center"> Software Developed By: <strong>Ahsan Riaz</strong> </br>
+Email:ahsanriaz26@gmail.com</p>
+</footer>
 </html>
 <?php
 }
+
+
 else
 echo "Please from and to date to process report";
 }

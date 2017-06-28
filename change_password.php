@@ -7,7 +7,7 @@ include_once("init.php");
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>POSNIC - Dashboard</title>
+	<title>Sale Perchase System</title>
 	
 	<!-- Stylesheets -->
 	<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet'>
@@ -109,15 +109,15 @@ include_once("init.php");
 				<table style="width:600px; margin-left:50px; float:left;" border="0" cellspacing="0" cellpadding="0">
                                    
                                     <tr>
-                                        <td>Old Password</td><td><input type="password" name="old_pass" readonly="readonly"></td></tr>
+                                        <td>Old Password</td><td><input type="password" name="old_pass"></td></tr>
                                   <tr><td>&nbsp;</td><td>&nbsp;</td></tr><tr>
-                                      <td>New Password</td><td><input type="password" name="new_pass" readonly="readonly" ></td></tr>
+                                      <td>New Password</td><td><input type="password" name="new_pass"  ></td></tr>
                                       <tr><td>&nbsp;</td><td>&nbsp;</td></tr><tr>
-                                      <td>Confirm Password</td><td><input type="password" name="confirm_pass" readonly="readonly"></td>
+                                      <td>Confirm Password</td><td><input type="password" name="confirm_pass"></td>
 				  </tr>
                                   <tr><td>&nbsp;</td><td>&nbsp;</td></tr><tr> <tr><td>&nbsp;</td><td>&nbsp;</td></tr><tr></tr>
                                   <tr><td>
-                        <input  class="button round blue image-right ic-add text-upper" type="submit" name="Submit" name="change_pass" value="Save">
+                        <input class="button round blue image-right ic-add text-upper" type="submit" name="Submit" name="change_pass" value="Save">
                      </td><td>			
                      <input class="button round red   text-upper"  type="reset" name="Reset" value="Reset"> </td></tr>
 				
@@ -149,27 +149,9 @@ include_once("init.php");
 	
 	<!-- FOOTER -->
 	<div id="footer">
-	<div id="fb-root"></div>
-		<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=286371564842269";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
 
-<div class="fb-like" data-href="https://www.facebook.com/posnic.point.of.sale" data-width="450" data-show-faces="true" data-send="true"></div>
-   <script type="text/javascript">
-      (function() {
-        var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-        po.src = 'https://apis.google.com/js/plusone.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-      })();
-    </script>
-<div class="g-plusone" data-href="https://plus.google.com/u/0/107268519615804538483"></div>
+		<p> &copy;Copyright 2013</p>
 
-		<p>Any Queries email to <a href="mailto:sridharkalaibala@gmail.com?subject=Stock%20Management%20System">sridharkalaibala@gmail.com</a>.</p>
 	
 	</div> <!-- end footer -->
 

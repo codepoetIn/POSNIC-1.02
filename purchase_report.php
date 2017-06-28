@@ -46,10 +46,9 @@ document.getElementById('printButton').style.visibility="visible";
                       <?php $line4 = $db->queryUniqueObject("SELECT * FROM store_details ");
 				 ?>
                   <strong><?php echo $line4->name; ?></strong><br />
-                  <?php echo $line4->address; ?>,<?php echo $line4->place; ?>, <br />
-                  <?php echo $line4->city; ?>,<?php echo $line4->pin; ?><br/>
-                  Website<strong>:<?php echo $line4->web; ?></strong><br>Email<strong>:<?php echo $line4->email; ?></strong><br />Phone
-                      <strong>:<?php echo $line4->phone; ?></strong>
+                  <?php echo $line4->address; ?><br/>
+                  
+             Phone<strong>:<?php echo $line4->phone; ?></strong>
                   <br />
                   <?php ?>
               </div>
@@ -58,28 +57,9 @@ document.getElementById('printButton').style.visibility="visible";
         <tr>
           <td height="30" align="center"><strong>Purchase Report</strong></td>
         </tr>
-        <tr>
-          <td height="30" align="center">&nbsp;</td>
-        </tr>
-        <tr>
-          <td align="right"><table width="300" border="0" cellspacing="0" cellpadding="0">
-            <tr>
-              <td width="150"><strong>Total Purchase</strong></td>
-              <td width="150">&nbsp;<?php echo  $age = $db->queryUniqueValue("SELECT sum(subtotal) FROM stock_entries where count1=1 AND type='entry' AND date BETWEEN '$fromdate' AND '$todate' ");?></td>
-            </tr>
-            <tr>
-              <td><strong>Paid Amount</strong></td>
-              <td>&nbsp;<?php echo  $age = $db->queryUniqueValue("SELECT sum(payment) FROM stock_entries where count1=1 AND type='entry' AND date BETWEEN '$fromdate' AND '$todate' ");?></td>
-            </tr>
-            <tr>
-              <td width="150"><strong>Pending Payment </strong></td>
-              <td width="150">&nbsp;<?php echo  $age = $db->queryUniqueValue("SELECT sum(balance) FROM stock_entries where count1=1 AND type='entry' AND date BETWEEN '$fromdate' AND '$todate' ");?></td>
-            </tr>
-          </table></td>
-        </tr>
-        <tr>
-          <td width="45"><hr></td>
-        </tr>
+        
+        
+       
         <tr>
           <td height="20"><table width="100%"  border="0" cellspacing="0" cellpadding="0">
               <tr>
@@ -91,17 +71,22 @@ document.getElementById('printButton').style.visibility="visible";
           </table></td>
         </tr>
         <tr>
-          <td width="45"><hr></td>
+          <td >
+          <hr width="125%">
+          </td>
         </tr>
         <tr>
-          <td><table width="100%"  border="0" cellspacing="0" cellpadding="0">
+          <td><table width="125%"  border="0" cellspacing="0" cellpadding="0">
               <tr>
                 <td><strong>Date</strong></td>
                 <td><strong>Purchase ID </strong></td>
+                <td><strong>Product</strong></td>
                 <td><strong>Supplier</strong></td>
+                <td><strong>Quantity</strong></td>
+                <td><strong>Price/unit</strong></td>
                 <td><strong>Paid</strong></td>
-                <td><strong>Balance</strong></td>
-                <td><strong>Total</strong></td>
+                
+                
               </tr>
 			  <tr>
                 <td>&nbsp;</td>
@@ -117,15 +102,15 @@ while ($line = mysql_fetch_array($result)) {
 ?>
 			
 				<tr>
-                <td><?php  $mysqldate=$line->date;
- 		$phpdate = strtotime( $mysqldate );
- 		$phpdate = date("d/m/Y",$phpdate);
-		echo $phpdate; ?></td>
+                <td><?php  echo $line['date'] ?></td>
                 <td><?php echo $line['stock_id']; ?></td>
+                <td><?php echo $line['stock_name'] ?></td>
                 <td><?php echo $line['stock_supplier_name'] ?></td>
-                <td><?php echo $line['payment'] ?></td>
-                <td><?php echo $line['balance'] ?></td>
-                <td><?php echo $line['subtotal'] ?></td>
+                 <td><?php echo $line['quantity'] ?></td>
+                 <td><?php echo $line['company_price'] ?></td>
+                <td><?php echo $line['total'] ?></td>
+               
+                
               </tr>
 			  	
 
@@ -142,9 +127,30 @@ while ($line = mysql_fetch_array($result)) {
         </tr>
     </table></td>
   </tr>
+  <tr>
+          <td align="center"><table width="300" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="150"><strong>Total Purchase</strong></td>
+              <td width="150">&nbsp;<?php echo  $age = $db->queryUniqueValue("SELECT sum(subtotal) FROM stock_entries where count1=1 AND type='entry' AND date BETWEEN '$fromdate' AND '$todate' ");?></td>
+            </tr>
+            <tr>
+              <td><strong>Paid Amount</strong></td>
+              <td>&nbsp;<?php echo  $age = $db->queryUniqueValue("SELECT sum(payment) FROM stock_entries where count1=1 AND type='entry' AND date BETWEEN '$fromdate' AND '$todate' ");?></td>
+            </tr>
+            <tr>
+              <td width="150"><strong>Pending Payment </strong></td>
+              <td width="150">&nbsp;<?php echo  $age = $db->queryUniqueValue("SELECT sum(balance) FROM stock_entries where count1=1 AND type='entry' AND date BETWEEN '$fromdate' AND '$todate' ");?></td>
+            </tr>
+          </table></td>
+        </tr>
 </table>
 
 </body>
+<footer>
+
+<p align="center"> Software Developed By: <strong>Ahsan Riaz</strong> </br>
+Email:ahsanriaz26@gmail.com</p>
+</footer>
 </html>
 <?php
 }

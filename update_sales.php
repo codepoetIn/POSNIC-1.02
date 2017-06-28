@@ -425,7 +425,7 @@ document.getElementById('payable_amount').value=parseFloat(document.getElementBy
 					<li><a href="view_sales.php">View Sales</a></li>
 					
 				</ul>
-				                                                                
+				                                                              
 			</div> <!-- end side-menu -->
 			
 			<div class="side-content fr">
@@ -559,7 +559,24 @@ document.getElementById('payable_amount').value=parseFloat(document.getElementBy
 			
                            }
 		 $trans_id=  trim($_POST['stockid']);
-                        			echo "<div style='background-color:yellow;'><br><font color=green size=+1 >Sales Updated ! Transaction ID [ $autoid ]</font></div> ";
+                        			
+                                                
+                                                
+                                                	$data="Sales Updated ! Transaction ID $trans_id" ;
+				                                            $msg='<p style=color:#153450;font-family:gfont-family:Georgia, Times New Roman, Times, serif>'.$data.'</p>';//
+                                            ?>
+                                                    
+ <script  src="dist/js/jquery.ui.draggable.js"></script>
+<script src="dist/js/jquery.alerts.js"></script>
+<script src="dist/js/jquery.js"></script>
+<link rel="stylesheet"  href="dist/js/jquery.alerts.css" >
+                                                  
+                                            <script type="text/javascript">
+	
+					jAlert('<?php echo  $msg; ?>', 'POSNIC');
+			
+</script>
+                                                        <?php
 			echo "<script>window.open('add_sales_print.php?sid=$trans_id','myNewWinsr','width=620,height=800,toolbar=0,menubar=no,status=no,resizable=yes,location=no,directories=no');</script>";
 			
             }
@@ -577,7 +594,7 @@ document.getElementById('payable_amount').value=parseFloat(document.getElementBy
 				<form name="form1" method="post" id="form1" action="">
                       <input type="hidden" id="posnic_total" >
                       <input type="hidden" name="id" value="<?php echo $id ?>" >
-                 
+                  <div class="mytable_row ">
                   <table class="form"  border="0" cellspacing="0" cellpadding="0">
                     <tr>
                                <?php
@@ -585,11 +602,11 @@ document.getElementById('payable_amount').value=parseFloat(document.getElementBy
 					  $max=$max+1;
 					  $autoid="PR".$max."";
 					  ?>
-                      <td>Stock ID:</td>
+                      <td>Transaction ID:</td>
                       <td><input name="stockid" type="text" id="stockid" readonly="readonly" maxlength="200"  class="round default-width-input" style="width:130px "  value="<?php echo $line->transactionid   ; ?>" /></td>
                        
                       <td>Date:</td>
-                      <td><input  name="date" id="test1" placeholder="" value="<?php echo $line->date ; ?> " type="text" id="name" maxlength="200"  class="round default-width-input"  /></td>
+                      <td><input  name="date" id="test1" placeholder="" value="<?php echo $line->date ; ?> " type="text" maxlength="200"  class="round default-width-input"  /></td>
                       <td><span class="man">*</span>Bill No:</td>
                       <td><input name="bill_no" placeholder="ENTER BILL NO" type="text" id="bill_no" maxlength="200" value="<?php echo $line->billnumber ; ?> " class="round default-width-input" style="width:120px " /></td>
                        
@@ -606,24 +623,25 @@ document.getElementById('payable_amount').value=parseFloat(document.getElementBy
                        
                     </tr>
                   </table>
+                  </div>
                   <input type="hidden" id="guid">
                   <input type="hidden" id="edit_guid">
               
                    <table id="hideen_display">
                          <tr >
                           <td>Item:</td>
-                           <td> &nbsp;</td>
-                           <td> &nbsp;</td>
-                           <td> &nbsp;</td>
-                           <td> &nbsp;</td>
+                           <td>&nbsp; </td>
+                           
+                           <td>&nbsp; </td>
+                           <td>&nbsp; </td>
                           <td>Quantity:</td>                      
                           <td>Selling:</td>
                           <td>Available Stock:</td>
                           <td>Total</td>
-                           
-                           <td> &nbsp;</td>
-                           <td> &nbsp;</td>
-                           <td> &nbsp;</td><td> &nbsp;</td><td> &nbsp;</td><td> &nbsp;</td><td> &nbsp;</td><td> &nbsp;</td>
+                           <td>&nbsp; </td><td>&nbsp; </td><td>&nbsp; </td>
+                           <td>&nbsp; </td>
+                           <td>&nbsp; </td>
+                           <td>&nbsp; </td><td>&nbsp; </td><td>&nbsp; </td><td>&nbsp; </td><td>&nbsp; </td><td>&nbsp; </td>
                       </tr>
                   </table>
                   <table class="form" id="display" style="display:none">
@@ -673,7 +691,7 @@ document.getElementById('payable_amount').value=parseFloat(document.getElementBy
                   
                    
                         
-                            
+                         
                       <td><input type="hidden" name="s_id[]" value="<?php echo $line1->id; ?>"> <input name="sell[]"  type="text" id="<?php echo $item."s"?>" maxlength="20" readonly="readonly" class="round my_with" 
 					  value="<?php echo $line1->selling_price; ?>" onkeypress="return numbersonly(event)"  /></td>
                       <td><input name="stock[]"  type="text" id="<?php echo $item."p"?>" readonly="readonly" maxlength="200"   class="round  my_with"  value="<?php $quantity = $db->queryUniqueValue("SELECT quantity FROM stock_avail WHERE name='".$line1->stock_name."'"); echo $quantity; ?>" /></td>
@@ -690,32 +708,32 @@ document.getElementById('payable_amount').value=parseFloat(document.getElementBy
                    </div>
                      
                   
-                    
+                    <div class="mytable_row "> 
                   <table class="form">
                           
                                  <tr>
-                           <td> &nbsp;</td> <td> &nbsp;</td>
+                           <td>&nbsp; </td> <td>&nbsp; </td>
                            <td><input type="checkbox" id="round" onclick="discount_type()" >Discount As Amount</td> </tr>
                     <tr> 
-                        <td> &nbsp;</td>
+                        <td>&nbsp; </td>
                         <td>Discount %<input type="text" maxlength="3"  value="<?php echo $line->discount ; ?>" class="round" onkeyup=" discount_amount(); " onkeypress="return numbersonly(event);" name="discount" id="discount" >
                       </td>
                  
                     <td>Discount Amount:<input type="text" readonly="readonly"  value="<?php echo $line->dis_amount ; ?>" onkeypress="return numbersonly(event);"  onkeyup=" discount_as_amount(); " class="round" id="disacount_amount" name="dis_amount" >               
                       </td>
-                     <td> &nbsp;</td><td> &nbsp;</td>
+                     <td>&nbsp; </td><td>&nbsp; </td>
                         <td>Grand Total:<input type="hidden" readonly="readonly"  value="<?php echo $line->grand_total ; ?>" id="grand_total" name="subtotal" > 
                         <input type="text" id="main_grand_total" readonly="readonly"  value="<?php echo $line->grand_total ; ?>" class="round default-width-input"  style="text-align:right;width: 120px" >
                     </td>
                       <td>Description</td>
                   <td><textarea name="description"><?php echo $line->description ; ?></textarea></td>
                   </tr> 
-                    <tr> <td> &nbsp;</td>
+                    <tr> <td>&nbsp; </td>
                         <td>Payment:<input type="text"  class="round" value="<?php  echo $line->payment ; ?>" onkeyup=" balance_amount(); return numbersonly(event);"  name="payment" id="payment" >
                       </td>
                     <td>Balance:<input type="text"  class="round" value="<?php echo $line->balance ; ?>" id="balance" name="balance" >               
                       </td>
-                      <td> &nbsp;</td><td> &nbsp;</td>
+                      <td>&nbsp; </td><td>&nbsp; </td>
                       <td>Payable Amount:<input type="hidden" readonly="readonly" id="grand_total"  > 
                         <input type="text" id="payable_amount" value="<?php echo $line->subtotal ; ?>" readonly="readonly" name="payable" class="round default-width-input"  style="text-align:right;width: 120px" >
                    </td>
@@ -735,9 +753,9 @@ document.getElementById('payable_amount').value=parseFloat(document.getElementBy
                  <td>Tax Description:<input type="text" <?php echo $line->tax_dis ?> name="tax_dis"> </td>         
              
                 
-                  <td> &nbsp;</td>
-                  <td> &nbsp;</td>
-                  <td> &nbsp;</td>
+                  <td>&nbsp; </td>
+                  <td>&nbsp; </td>
+                  <td>&nbsp; </td>
                   </tr>
                   </table>
                                  <table class="form">
@@ -746,9 +764,9 @@ document.getElementById('payable_amount').value=parseFloat(document.getElementBy
                         <input  class="button round blue image-right ic-add text-upper" type="submit" name="Submit" value="Add">
                      </td><td>			(Control + S)
                      <input class="button round red   text-upper"  type="reset" name="Reset" value="Reset"> </td>
-                     <td> &nbsp;</td> <td> &nbsp;</td>
+                     <td>&nbsp; </td> <td>&nbsp; </td>
                     </tr>
-                </table>
+                </table></div>
                 </form>
 						
 				
@@ -767,7 +785,7 @@ document.getElementById('payable_amount').value=parseFloat(document.getElementBy
 	
 	<!-- FOOTER -->
 	<div id="footer">
-		<p>Any Queries email to <a href="mailto:sridharkalaibala@gmail.com?subject=Stock%20Management%20System">sridharkalaibala@gmail.com</a>.</p>
+		<p> &copy;Copyright 2013</p>
 	
 	</div> <!-- end footer -->
 

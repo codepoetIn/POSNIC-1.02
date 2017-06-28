@@ -78,13 +78,13 @@ include_once("init.php");
 	
 			<ul id="tabs" class="fl">
 				<li><a href="dashboard.php" class="dashboard-tab">Dashboard</a></li>
-				<li><a href="page-full-width.php" class="sales-tab">Sales</a></li>
-				<li><a href="page-full-width.php" class="active-tab customers-tab">Customers</a></li>
-				<li><a href="page-other.php" class="purchase-tab">Purchase</a></li>
-				<li><a href="page-other.php" class="supplier-tab">Supplier</a></li>
-				<li><a href="page-other.php" class="stock-tab">Stocks / Products</a></li>
-				<li><a href="page-other.php" class="payment-tab">Payments / Outstandings</a></li>
-				<li><a href="page-other.php" class="report-tab">Reports</a></li>
+				<li><a href="view_sales.php" class="sales-tab">Sales</a></li>
+				<li><a href="view_customers.php" class="active-tab customers-tab">Customers</a></li>
+				<li><a href="view_purchase.php" class="purchase-tab">Purchase</a></li>
+				<li><a href="view_supplier.php" class=" supplier-tab">Supplier</a></li>
+				<li><a href="view_product.php" class=" stock-tab">Stocks / Products</a></li>
+				<li><a href="view_payments.php" class="payment-tab">Payments / Outstandings</a></li>
+				<li><a href="view_report.php" class="report-tab">Reports</a></li>
 			</ul> <!-- end tabs -->
 			
 			<!-- Change this image to your own company's logo -->
@@ -138,13 +138,29 @@ include_once("init.php");
 			$address=trim(mysql_real_escape_string($_POST['address']));
 			$contact1=trim(mysql_real_escape_string($_POST['contact1']));
 			$contact2=trim(mysql_real_escape_string($_POST['contact2']));
-			
+			$count = $db->countOf("customer_details", "customer_contact2='$contact2'");
 			
 				
-			if($db->query("UPDATE customer_details  SET customer_name='$name',customer_address='$address',customer_contact1='$contact1',customer_contact2='$contact2' where id=$id"))
-			echo "<br><font color=green size=+1 > [ $name ] Supplier Details Updated!</font>" ;
+			if($count>0){
+			$db->query("UPDATE customer_details  SET customer_name='$name',customer_address='$address',customer_contact1='$contact1',customer_contact2='$contact2' where id=$id");
+                        $data=" $name  Customer Details Updated" ;
+		$msg='<p style=color:#153450;font-family:gfont-family:Georgia, Times New Roman, Times, serif>'.$data.'</p>';//
+                                            ?>
+                                                    
+ <script  src="dist/js/jquery.ui.draggable.js"></script>
+<script src="dist/js/jquery.alerts.js"></script>
+<script src="dist/js/jquery.js"></script>
+<link rel="stylesheet"  href="dist/js/jquery.alerts.css" >
+                                                  
+                                            <script type="text/javascript">
+	
+					jAlert('<?php echo  $msg; ?>', 'POSNIC');
+			
+</script>
+                                                        <?php
+                        }
 			else
-			echo "<br><font color=red size=+1 >Problem in Updation !</font>" ;
+			echo "<br><font color=red size=+1 >Problem in Updation Or Duplicate Entery !</font>" ;
 			
 			
 			}
@@ -181,8 +197,8 @@ include_once("init.php");
                  
                    
                     <tr>
-                      <td>
-					 &nbsp;
+                      <td>&nbsp;
+					 
 					  </td>
                       <td>
                         <input  class="button round blue image-right ic-add text-upper" type="submit" name="Submit" value="Save">
@@ -208,7 +224,7 @@ include_once("init.php");
 	
 	<!-- FOOTER -->
 	<div id="footer">
-		<p>Any Queries email to <a href="mailto:sridharkalaibala@gmail.com?subject=Stock%20Management%20System">sridharkalaibala@gmail.com</a>.</p>
+		<p> &copy;Copyright 2013</p>
 	
 	</div> <!-- end footer -->
 

@@ -16,7 +16,7 @@ if(isset($_SESSION['username'])) {
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>POSNIC - Login to Control Panel</title>
+	<title>Login to Control Panel</title>
 	
 	<!-- Stylesheets -->
 	
@@ -95,20 +95,21 @@ if(isset($_SESSION['username'])) {
 				<h5>Enter your credentials below</h5>
 			
 			</div> <!-- login-intro -->
-			
+    
 			<!-- Change this image to your own company's logo -->
 			<!-- The logo will automatically be resized to 39px height. -->
-			<a href="#" id="company-branding" class="fr"><img src="<?php if(isset($_SESSION['logo'])) { echo "upload/".$_SESSION['logo'];}else{ echo "upload/posnic.png"; } ?>" alt="Point of Sale" /></a>
+			<a href="http://posnic.com/" id="company-branding" class="fr"  target="blank"><img src="<?php if(isset($_SESSION['logo'])) { echo "upload/".$_SESSION['logo'];}else{ echo "upload/Hafiz Super Store.png"; } ?>" alt="Point of Sale" /></a>
 			
 		</div> <!-- end full-width -->	
 
 	</div> <!-- end header -->
 	
-	
+        <h1 style="margin-left: 440px; font-family: Georgia;     font-weight: bold; font-size:20px; color: #0060BF">Get In Touch With Us &nbsp;&nbsp;&nbsp;</h1>
 	
 	<!-- MAIN CONTENT -->
+
 	<div id="content">
-	
+
 		<form action="checklogin.php" method="POST" id="login-form" class="cmxform" autocomplete="off">
 		
 			<fieldset>
@@ -131,13 +132,13 @@ if(isset($_SESSION['username'])) {
 				
 				</p>
 				<p>
-					<label for="login-username">username</label>
-                                        <input type="text" id="login-username" class="round full-width-input" placeholder="admin" name="username" autofocus  />
+                                    <label>Username</label>
+                                        <input type="text" id="login-username" class="round full-width-input" placeholder="Enter Username" name="username" autofocus  />
 				</p>
 
 				<p>
-					<label for="login-password">password</label>
-                                        <input type="password" id="login-password" name="password" placeholder="admin" class="round full-width-input"  />
+                                <label>Password</label>
+                                        <input type="password" id="login-password" name="password" placeholder="Enter Password" class="round full-width-input"  />
 				</p>
 				
                                 <a href="forget_pass.php" class="button ">Forgot your password?</a>
@@ -146,17 +147,10 @@ if(isset($_SESSION['username'])) {
 				<input type="submit" class="button round blue image-right ic-right-arrow" name="submit" value="LOG IN" />
 			</fieldset>
 
-			<br/><div class="information-box round">Just click on the "LOG IN" button to continue, no login information required.</div>
-
-		</form>
-		
-	</div> <!-- end content -->
-	
-	
-	
-	<!-- FOOTER -->
-	<div id="footer">
-		<script>(function(d, s, id) {
+			<br/>
+                        
+                </form><div style="margin-left: 400px">
+				<script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) return;
   js = d.createElement(s); js.id = id;
@@ -164,19 +158,22 @@ if(isset($_SESSION['username'])) {
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
 
-<div id="fb-root"></div>
-<div class="fb-like" data-href="https://www.facebook.com/posnic.point.of.sale" data-width="450" data-show-faces="true" data-send="true"></div>
-<div class="g-plusone" data-href="https://plus.google.com/u/0/107268519615804538483"></div> 
+
 <script type="text/javascript">
       (function() {
         var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
         po.src = 'https://apis.google.com/js/plusone.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
       })();
-    </script><p>Any Queries email to <a href="mailto:sridharkalaibala@gmail.com?subject=Stock%20Management%20System">sridharkalaibala@gmail.com</a>.</p>
-		
-	
-	</div> <!-- end footer -->
+    </script>
+		</div>
+	</div> <!-- end content -->
+	<!-- FOOTER -->
+	<div id="footer">
+<p> &copy;Copyright 2013</p>
 
+	</div> <!-- end footer -->
+        
+       
 </body>
 </html>

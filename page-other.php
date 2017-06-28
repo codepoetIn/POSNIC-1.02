@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>POSNIC - Other page elements</title>
+	<title>Sale Perchase System</title>
 	
 	<!-- Stylesheets -->
 	<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet'>
@@ -238,8 +238,7 @@
 	<!-- FOOTER -->
 	<div id="footer">
 
-		<p>&copy; Copyright 2012 <a href="#">BlueHosting, LLC</a>. All rights reserved.</p>
-		<p><strong>SimpleAdmin</strong> theme by <a href="http://www.adipurdila.com">Adi Purdila</a></p>
+		<p> &copy;Copyright 2013</p>
 	
 	</div> <!-- end footer -->
 
