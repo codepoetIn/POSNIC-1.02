@@ -8,11 +8,11 @@ else
 {
 	
 	error_reporting (E_ALL ^ E_NOTICE);
-	if(isset($_GET['id']) && isset($_GET['table']))
+	if(isset($_REQUEST['id']) && isset($_REQUEST['table']))
 	{
-	$id=$_GET['id'];
-	$tablename=$_GET['table'];
-	$return=$_GET['return'];
+	echo $id=$_REQUEST['id'];
+	$tablename=$_REQUEST['table'];
+	$return=$_REQUEST['return'];
 	
 	if($tablename=="stock_entries")
 	{			
@@ -50,13 +50,13 @@ else
 				$db->execute("UPDATE stock_avail SET quantity=$total WHERE name='$name'");
 				$db->execute("DELETE FROM $tablename WHERE id=$id");
 	}
-	$id=$_GET['id'];
+	$id=$_REQUEST['id'];
 	
 	$db->execute("DELETE FROM $tablename WHERE id=$id");
 	
 	header("location:$return?msg=Record Deleted Successfully!&id=$id");
 	}
-	if(isset($_POST['table']) && isset($_POST['checklist']))
+	if(isset($_REQUEST['table']) && isset($_REQUEST['checklist']))
 	{
             $data=$_REQUEST['checklist'];
             $tablename=$_POST['table'];
@@ -66,8 +66,8 @@ else
            }
 	header("location:$return?msg=Record Deleted Successfully!");
 }
-echo $_POST['return'];
-if(isset($_POST['return'])){
+echo $_REQUEST['return'];
+if(isset($_REQUEST['return'])){
     header("location:$return");
 }
 }

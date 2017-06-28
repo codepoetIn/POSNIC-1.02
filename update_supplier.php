@@ -109,7 +109,7 @@ include_once("init.php");
 					<li><a href="add_supplier.php">Add Supplier</a></li>
 					<li><a href="view_supplier.php">View Suppliers</a></li>
 				</ul>
-				                            
+				                           
 			</div> <!-- end side-menu -->
 			
 			<div class="side-content fr">
@@ -138,13 +138,30 @@ include_once("init.php");
 			$address=trim(mysql_real_escape_string($_POST['address']));
 			$contact1=trim(mysql_real_escape_string($_POST['contact1']));
 			$contact2=trim(mysql_real_escape_string($_POST['contact2']));
+			$count = $db->countOf("supplier_details", "supplier_contact2='$contact2'");
+		
+			if($count<1){
+			$db->query("UPDATE supplier_details  SET supplier_name ='$name',supplier_address='$address',supplier_contact1='$contact1',supplier_contact2='$contact2' WHERE  id=$id");	
+                        $msg=" $name  Supplier Details Updated" ;
+		
+                    header("Location:view_supplier.php?msg=$msg" );                       
+										    ?>
+                                                    
+ <script  src="dist/js/jquery.ui.draggable.js"></script>
+<script src="dist/js/jquery.alerts.js"></script>
+<script src="dist/js/jquery.js"></script>
+<link rel="stylesheet"  href="dist/js/jquery.alerts.css" >
+                                                  
+                                            <script type="text/javascript">
+	
+					
+					
 			
-			
-				
-			if($db->query("UPDATE supplier_details  SET supplier_name ='$name',supplier_address='$address',supplier_contact1='$contact1',supplier_contact2='$contact2' where id=$id"))
-			echo "<br><font color=green size=+1 > [ $name ] Supplier Details Updated!</font>" ;
+</script>
+                                                        <?php
+                        }
 			else
-			echo "<br><font color=red size=+1 >Problem in Updation !</font>" ;
+			echo "<br><font color=red size=+1 >Problem in Updation & Duplicate entery !</font>" ;
 			
 			
 			}
@@ -160,7 +177,7 @@ include_once("init.php");
                    <input name="id" type="hidden" value="<?php echo $_GET['sid']; ?>">  
                     <tr>
 					<td>Name</td>
-                      <td><input name="name" type="text" id="name" maxlength="200"  class="round default-width-input" value="<?php echo $line->supplier_name ; ?> "/></td>
+<td><input name="name" type="text" id="name" maxlength="200"  class="round default-width-input" value="<?php echo $line->supplier_name ; ?> "/></td>
                    <td>Contact 1 </td>
                       <td><input name="contact1"  type="text" id="buyingrate" maxlength="20"   class="round default-width-input" 
 					  value="<?php echo $line->supplier_contact1; ?>" /></td>
@@ -172,7 +189,7 @@ include_once("init.php");
                     <tr>
                       <td>Address</td>
                       <td><textarea name="address"  cols="15" class="round full-width-textarea" ><?php echo $line->supplier_address; ?></textarea></td>
-                    <td>Contact 2 </td>
+                    <td>CNIC </td>
                       <td><input name="contact2"  type="text" id="sellingrate" maxlength="20"  class="round default-width-input" 
 					  value="<?php echo $line->supplier_contact2; ?>" /></td>
                     </tr>
@@ -181,8 +198,8 @@ include_once("init.php");
                     </tr>
                    
                     <tr>
-                      <td>
-					 &nbsp;
+                      <td>&nbsp;
+					 
 					  </td>
                       <td>
                         <input  class="button round blue image-right ic-add text-upper" type="submit" name="Submit" value="Save">
@@ -209,7 +226,7 @@ include_once("init.php");
 	
 	<!-- FOOTER -->
 	<div id="footer">
-		<p>Any Queries email to <a href="mailto:sridharkalaibala@gmail.com?subject=Stock%20Management%20System">sridharkalaibala@gmail.com</a>.</p>
+<p> &copy;Copyright 2013</p>
 	
 	</div> <!-- end footer -->
 

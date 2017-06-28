@@ -7,7 +7,7 @@ include_once("init.php");
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>POSNIC - Stock</title>
+	<title>Perchase Stock</title>
 	
 	<!-- Stylesheets -->
 	<!--<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet'>-->
@@ -19,18 +19,30 @@ include_once("init.php");
 	<!-- jQuery & JS files -->
 	<?php include_once("tpl/common_js.php"); ?>
 	<script src="js/script.js"></script> 
-        
+<script  src="dist/js/jquery.ui.draggable.js"></script>
+<script src="dist/js/jquery.alerts.js"></script>
+<link rel="stylesheet"  href="dist/js/jquery.alerts.css" >
         
         <script LANGUAGE="JavaScript">
 <!--
 // Nannette Thacker http://www.shiningstar.net
-function confirmSubmit()
-{
-var agree=confirm("Are you sure you wish to Delete this Entry?");
-if (agree)
-	return true ;
-else
-	return false ;
+console.log();
+function confirmSubmit(id,table,dreturn)
+{ 	     jConfirm('You Want Delete This Purchase ', 'Confirmation Dialog', function (r) {
+           if(r){ 
+               console.log();
+                $.ajax({
+  			url: "delete.php",
+  			data: { id: id, table:table,return:dreturn},
+  			success: function(data) {
+    			window.location ='view_purchase.php';
+    			
+                        jAlert('Product Is Delete', 'POSNIC');
+  			}
+		});
+            }
+            return r;
+        });
 }
 
 function confirmDeleteSubmit()
@@ -45,15 +57,18 @@ for (i = 0; i < field.length; i++){
 	
 }
 if (flag <1) {
-alert ("You must check one and only one checkbox!");
+  jAlert('You must check one and only one checkbox', 'POSNIC');
 return false;
 }else{
-var agree=confirm("Are you sure you wish to Delete Selected Record?");
-if (agree)
+ jConfirm('You Want Delete Purchase', 'Confirmation Dialog', function (r) {
+           if(r){ 
 	
-document.deletefiles.submit();
-else
+document.deletefiles.submit();}
+else {
 	return false ;
+   
+}
+});
    
 }
 }
@@ -85,50 +100,7 @@ for (i = 0; i < field.length; i++)
 }
 // -->
 </script>
-		<script>
-                    
-                    
-	/*$.validator.setDefaults({
-		submitHandler: function() { alert("submitted!"); }
-	});*/
-	$(document).ready(function() {
-	
-		// validate signup form on keyup and submit
-		$("#form1").validate({
-			rules: {
-				name: {
-					required: true,
-					minlength: 3,
-					maxlength: 200
-				},
-				address: {
-					minlength: 3,
-					maxlength: 500
-				},
-				contact1: {
-					minlength: 3,
-					maxlength: 20
-				},
-				contact2: {
-					minlength: 3,
-					maxlength: 20
-				}
-			},
-			messages: {
-				name: {
-					required: "Please enter a supplier Name",
-					minlength: "supplier must consist of at least 3 characters"
-				},
-				address: {
-					minlength: "supplier Address must be at least 3 characters long",
-					maxlength: "supplier Address must be at least 3 characters long"
-				}
-			}
-		});
-	
-	});
-
-	</script>
+		
 
 </head>
 <body>
@@ -178,6 +150,7 @@ for (i = 0; i < field.length; i++)
 					<li><a href="view_purchase.php">View Purchase </a></li>
 					
 				</ul>
+                                    
 			</div> <!-- end side-menu -->
 			
 			<div class="side-content fr">
@@ -225,7 +198,7 @@ $SQL = "SELECT DISTINCT(stock_id) FROM  stock_entries where type='entry'";
 if(isset($_POST['Search']) AND trim($_POST['searchtxt'])!="")
 {
 
-$SQL = "SELECT DISTINCT(stock_id) FROM  stock_entries WHERE stock_name LIKE '%".$_POST['searchtxt']."%' OR stock_supplier_name LIKE '%".$_POST['searchtxt']."%' OR stock_id LIKE '%".$_POST['searchtxt']."%' OR date LIKE '%".$_POST['searchtxt']."%' OR type LIKE '%".$_POST['searchtxt']."%' AND type='entry'";
+$SQL = "SELECT DISTINCT(stock_id) FROM  stock_entries WHERE type='entry'";
 
 
 }
@@ -250,7 +223,7 @@ $SQL = "SELECT DISTINCT(stock_id) FROM  stock_entries WHERE stock_name LIKE '%".
 if(isset($_POST['Search']) AND trim($_POST['searchtxt'])!="")
 {
 
-$query = "SELECT COUNT(DISTINCT stock_id) as num FROM stock_entries WHERE stock_name LIKE '%".$_POST['searchtxt']."%' OR stock_supplier_name LIKE '%".$_POST['searchtxt']."%' OR stock_id LIKE '%".$_POST['searchtxt']."%' OR date LIKE '%".$_POST['searchtxt']."%' OR type LIKE '%".$_POST['searchtxt']."%' and type='entry'";
+$query = "SELECT COUNT(DISTINCT stock_id) as num FROM stock_entries WHERE  type='entry'";
 
 
 
@@ -284,12 +257,12 @@ $query = "SELECT COUNT(DISTINCT stock_id) as num FROM stock_entries WHERE stock_
 
 	/* Get data. */
 
-	$sql = "SELECT DISTINCT(stock_id) FROM stock_entries where type='entry' ORDER BY date desc LIMIT $start, $limit  ";
+	$sql = "SELECT stock_id FROM stock_entries where type='entry'  ";
 	
 	if(isset($_POST['Search']) AND trim($_POST['searchtxt'])!="")
 {
 
-$sql = "SELECT DISTINCT(stock_id) FROM stock_entries WHERE stock_name LIKE '%".$_POST['searchtxt']."%' OR stock_supplier_name LIKE '%".$_POST['searchtxt']."%' OR stock_id LIKE '%".$_POST['searchtxt']."%' OR date LIKE '%".$_POST['searchtxt']."%' OR type LIKE '%".$_POST['searchtxt']."%' and type='entry' ORDER BY date desc LIMIT $start, $limit";
+$sql = "SELECT stock_id FROM stock_entries WHERE type='entry'";
 
 
 
@@ -483,9 +456,11 @@ $sql = "SELECT DISTINCT(stock_id) FROM stock_entries WHERE stock_name LIKE '%".$
                                                                 <th>Stock Name</th>
 								<th>Date</th>							
 								<th>Supplier</th>
-								<th>Amount</th>
+								<th>Quantity</th>
+                                <th>Amount</th>
 								<th>Edit /Delete</th>
                                                                 <th>Select</th>
+                                                                 <th>Print</th>
                                                                 <td></td>
 							</tr>
 										
@@ -496,19 +471,21 @@ while($row = mysql_fetch_array($result))
 		{
 
 			$entryid=$row['stock_id'];
-			$line = $db->queryUniqueObject("SELECT * FROM stock_entries WHERE stock_id='$entryid' ");
+			
+			
+			$line = $db->queryUniqueObject("SELECT * FROM stock_entries WHERE  stock_id='$entryid'");
 			
 			$mysqldate=$line->date;
 
  		$phpdate = strtotime( $mysqldate );
 
  		$phpdate = date("d/m/Y",$phpdate);
-
-										 ?>
-
-  											<tr>
-
-                                                                                            <td></td>
+								 ?>
+                                 
+  			
+                                 
+ 									<tr>
+                                              <td><?php echo $no+$i; ?></td>
 
        	<td width="100"><?php echo $line->stock_id; ?></td>
        	<td width="100"><?php echo $line->stock_name; ?></td>
@@ -517,17 +494,22 @@ while($row = mysql_fetch_array($result))
         <td width="100"><?php echo $phpdate; ?></td>
 
         <td width="100"><?php echo $line->stock_supplier_name 	; ?></td>
-        <td width="100"><?php echo $line->subtotal; ?></td>
+         <td width="100"><?php echo $line->quantity; ?></td>
+        <td width="100"><?php echo $line->total; ?></td>
   
 
     <td>	<a href="update_purchase.php?sid=<?php echo $entryid;?>&table=stock_entries&return=view_purchase.php"	class="table-actions-button ic-table-edit">
 	</a>
-	<a onclick="return confirmSubmit()" href="delete.php?id=<?php echo $row['id'];?>&table=stock_entries&return=view_purchase.php" class="table-actions-button ic-table-delete"></a>
-	</td>
-	<td><input type="checkbox" value="<?php echo $row['id']; ?>" name="checklist[]" id="check_box" /></td>
-        <td></td>
+
+
+<a  href="javascript:confirmSubmit(<?php echo $line->id;?>,'stock_entries','view_purchase.php')" class="table-actions-button ic-table-delete"></a>		
+    </td>
+	<td><input type="checkbox" value="<?php echo $line->id; ?>" name="checklist[]" id="check_box" /></td>
+    <td><a href=purchase_invoice.php?purchaseid=<?php echo $row['stock_id'];?> target="_blank"> Print</a>
+    </td>
+      
 </tr>
-<?php $i++; } ?>
+<?php $i++;  } ?>
  <tr>
 
        <td align="center"><div style="margin-left:20px;"><?php echo $pagination; ?></div></td>
@@ -540,8 +522,7 @@ while($row = mysql_fetch_array($result))
 		</div> 
 	</div> 
 		<div id="footer">
-		<p>Any Queries email to <a href="mailto:sridharkalaibala@gmail.com?subject=Stock%20Management%20System">sridharkalaibala@gmail.com</a>.</p>
-	
+		<p> &copy;Copyright 2013</p>	
 	</div> <!-- end footer -->
 
 </body>

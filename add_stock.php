@@ -7,7 +7,7 @@ include_once("init.php");
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>POSNIC - Add Stock Category</title>
+	<title>Add Stock</title>
 	
 	<!-- Stylesheets -->
 	<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet'>
@@ -141,10 +141,13 @@ function numbersonly(e){
 					<li><a href="add_category.php">Add Stock Category</a></li>
 					<li><a href="view_category.php">view Stock Category</a></li>
                                         <li><a href="view_stock_availability.php">view Stock Available</a></li>
-				</ul>
-			
+				
+                                  
+                                </ul>
+                               
+                                
 			</div> <!-- end side-menu -->
-			
+                        
 			<div class="side-content fr">
 			
 				<div class="content-module">
@@ -153,6 +156,7 @@ function numbersonly(e){
 					
 						<h3 class="fl">Add Stock </h3>
 						<span class="fr expand-collapse-text">Click to collapse</span>
+                                                <div style="margin-top: 15px;margin-left: 150px"></div>
 						<span class="fr expand-collapse-text initial-expand">Click to expand</span>
 					
 					</div> <!-- end content-module-heading -->
@@ -168,7 +172,7 @@ function numbersonly(e){
 					$gump->validation_rules(array(
 						'name'    	  => 'required|max_len,100|min_len,3',
 						'stockid'     => 'required|max_len,200',
-						'sell'     => 'required|max_len,200',
+						'sell'     	=> 'required|max_len,200',
 						'cost'     => 'required|max_len,200',
 						'supplier'     => 'max_len,200',
 						'category'     => 'max_len,200'
@@ -207,17 +211,33 @@ function numbersonly(e){
 							$category=mysql_real_escape_string($_POST['category']);
 							
 						
-						$count = $db->countOf("stock_details", "stock_id ='$stockid'");
-		if($count==1)
+						$count = $db->countOf("stock_details", "stock_name ='$name'");
+		if($count>1)
 			{
-		echo "<font color=red> Dublicat Entry. Please Verify</font>";
+	        $data='Dublicat Entry. Please Verify';
+            $msg='<p style=color:red;font-family:gfont-family:Georgia, Times New Roman, Times, serif>'.$data.'</p>';//
+                                            ?>
+                                                    
+ <script  src="dist/js/jquery.ui.draggable.js"></script>
+<script src="dist/js/jquery.alerts.js"></script>
+<script src="dist/js/jquery.js"></script>
+<link rel="stylesheet"  href="dist/js/jquery.alerts.css" >
+                                                  
+                                            <script type="text/javascript">
+	
+					jAlert('<?php echo  $msg; ?>', 'POSNIC');
+			
+</script>
+                                                        <?php
 			}
 			else
 			{
 				
 			if($db->query("insert into stock_details(stock_id,stock_name,stock_quatity,supplier_id,company_price,selling_price,category) values('$stockid','$name',0,'$supplier',$cost,$sell,'$category')"))
-			{echo "<br><font color=green size=+1 > [ $name ] Stock Details Added !</font>" ;
+			{ 
 				$db->query("insert into stock_avail(name,quantity) values('$name',0)");
+                                  $msg=" $name Stock Details Added" ;
+				header("Location: add_stock.php?msg=$msg");
                         }else
 			echo "<br><font color=red size=+1 >Problem in Adding !</font>" ;
 			
@@ -228,7 +248,23 @@ function numbersonly(e){
 							
 							}
 						
-				
+				if(isset($_GET['msg'])){
+                                             $data=$_GET['msg'];
+                                            $msg='<p style=color:#153450;font-family:gfont-family:Georgia, Times New Roman, Times, serif>'.$data.'</p>';//
+                                            ?>
+                                                    
+ <script  src="dist/js/jquery.ui.draggable.js"></script>
+<script src="dist/js/jquery.alerts.js"></script>
+<script src="dist/js/jquery.js"></script>
+<link rel="stylesheet"  href="dist/js/jquery.alerts.css" >
+                                                  
+                                            <script type="text/javascript">
+	
+					jAlert('<?php echo  $msg; ?>', 'POSNIC');
+			
+</script>
+                                                        <?php
+                                         }
 				
 				?>
 				
@@ -273,8 +309,8 @@ function numbersonly(e){
                     
                     
                     <tr>
-                      <td>
-					 &nbsp;
+                      <td>&nbsp;
+					 
 					  </td>
                       <td>
                         <input  class="button round blue image-right ic-add text-upper" type="submit" name="Submit" value="Add">
@@ -283,7 +319,7 @@ function numbersonly(e){
 					  <td align="right"><input class="button round red   text-upper"  type="reset" name="Reset" value="Reset"> </td>
                     </tr>
                   </table>
-                </form>
+                </form>  
 						
 				
 					</div> <!-- end content-module-main -->
@@ -294,14 +330,16 @@ function numbersonly(e){
 				
 		
 		</div> <!-- end full-width -->
-			
+		  	
 	</div> <!-- end content -->
 	
 	
 	
 	<!-- FOOTER -->
 	<div id="footer">
-		<p>Any Queries email to <a href="mailto:sridharkalaibala@gmail.com?subject=Stock%20Management%20System">sridharkalaibala@gmail.com</a>.</p>
+        
+		<p> &copy;Copyright 2013</p>
+
 	
 	</div> <!-- end footer -->
 

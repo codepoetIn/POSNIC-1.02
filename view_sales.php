@@ -7,8 +7,8 @@ include_once("init.php");
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>POSNIC - Stock</title>
-	
+	<title> Stock</title>
+    
 	<!-- Stylesheets -->
 	<!--<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet'>-->
 	<link rel="stylesheet" href="css/style.css">
@@ -19,18 +19,29 @@ include_once("init.php");
 	<!-- jQuery & JS files -->
 	<?php include_once("tpl/common_js.php"); ?>
 	<script src="js/script.js"></script> 
-        
+  <script  src="dist/js/jquery.ui.draggable.js"></script>
+<script src="dist/js/jquery.alerts.js"></script>
+<link rel="stylesheet"  href="dist/js/jquery.alerts.css" >
         
         <script LANGUAGE="JavaScript">
 <!--
 // Nannette Thacker http://www.shiningstar.net
-function confirmSubmit()
-{
-var agree=confirm("Are you sure you wish to Delete this Entry?");
-if (agree)
-	return true ;
-else
-	return false ;
+function confirmSubmit(id,table,dreturn)
+{ 	     jConfirm('You Want Delete This Sales Details', 'Confirmation Dialog', function (r) {
+           if(r){ 
+               console.log();
+                $.ajax({
+  			url: "delete.php",
+  			data: { id: id, table:table,return:dreturn},
+  			success: function(data) {
+    			window.location ='view_sales.php';
+    			
+                        jAlert('Sales Is Deleted', 'POSNIC');
+  			}
+		});
+            }
+            return r;
+        });
 }
 
 function confirmDeleteSubmit()
@@ -45,15 +56,18 @@ for (i = 0; i < field.length; i++){
 	
 }
 if (flag <1) {
-alert ("You must check one and only one checkbox!");
+  jAlert('You must check one and only one checkbox', 'POSNIC');
 return false;
 }else{
-var agree=confirm("Are you sure you wish to Delete Selected Record?");
-if (agree)
+ jConfirm('You Want Delete Sales', 'Confirmation Dialog', function (r) {
+           if(r){ 
 	
-document.deletefiles.submit();
-else
+document.deletefiles.submit();}
+else {
 	return false ;
+   
+}
+});
    
 }
 }
@@ -178,7 +192,18 @@ for (i = 0; i < field.length; i++)
 					<li><a href="view_sales.php">View Sales</a></li>
 					
 				</ul>
-				                                                                
+				           <div style="background: #ffffff">
+                                              <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- posnic 120x90 vertical small -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:120px;height:90px"
+     data-ad-client="ca-pub-5212135413309920"
+     data-ad-slot="3677012951"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+                               
+                                </div>                                                          
 			</div> <!-- end side-menu -->
 			
 			<div class="side-content fr">
@@ -197,10 +222,11 @@ for (i = 0; i < field.length; i++)
 				
 		
 					<table>
-<form action="" method="post" name="search" >
-    <input name="searchtxt" type="text" class="round my_text_box" placeholder="Search" > 
+		<form action="" method="post" name="search" >
+    	<input name="searchtxt" type="text" class="round my_text_box" placeholder="Search" > 
 &nbsp;&nbsp;<input name="Search" type="submit" class="my_button round blue   text-upper" value="Search">
 </form>
+
  <form action="" method="get" name="limit_go">
     Page per Record<input name="limit" type="text" class="round my_text_box" id="search_limit" style="margin-left:5px;" value="<?php if(isset($_GET['limit'])) echo $_GET['limit']; else echo "10"; ?>" size="3" maxlength="3">
     <input name="go"  type="button" value="Go" class=" round blue my_button  text-upper" onclick="return confirmLimitSubmit()">
@@ -213,19 +239,11 @@ for (i = 0; i < field.length; i++)
 <input type="button" name="selectall" value="SelectAll" class="my_button round blue   text-upper" onClick="checkAll()"  style="margin-left:5px;"/>
 <input type="button" name="unselectall" value="DeSelectAll" class="my_button round blue   text-upper" onClick="uncheckAll()" style="margin-left:5px;" />
 <input name="dsubmit" type="button" value="Delete Selected" class="my_button round blue   text-upper" style="margin-left:5px;" onclick="return confirmDeleteSubmit()"/>
-					
-					
-					
 					<table>
 		<?php 
-
-
-
-
 $SQL = "SELECT DISTINCT(transactionid) FROM  stock_sales ";
 if(isset($_POST['Search']) AND trim($_POST['searchtxt'])!="")
 {
-
 $SQL = "SELECT DISTINCT(transactionid) FROM  stock_sales WHERE stock_name LIKE '%".$_POST['searchtxt']."%' ";
 
 
@@ -486,10 +504,11 @@ if(isset($_GET['limit']) && is_numeric($_GET['limit'])){
 								<th>Date</th>							
 								<th>Customer</th>							
 								
-								<th>Payment</th>
+								<th>Quantity</th>
 								<th>Amount</th>
 								<th>Edit /Delete</th>
                                                                 <th>Select</th>
+                                                                <th>Print</th>
 							</tr>
 										
 <?php $i=1; $no=$page-1; $no=$no*$limit;	
@@ -503,15 +522,18 @@ while($row = mysql_fetch_array($result))
       <td> <?php echo $row['transactionid'];?></td>
       <td> <?php echo $row['date'];?></td>
    <td> <?php echo $row['customer_id']; ?></td>
-    <td> <?php echo $row['payment']; ?></td>   
-   <td> <?php echo $row['subtotal']; ?></td>
-  
+    <td> <?php echo $row['quantity']; ?></td>   
+   <td> <?php echo $row['amount']; ?></td>
 
     <td>	<a href="update_sales.php?sid=<?php echo $row['id'];?>&table=stock_sales&return=view_sales.php"	class="table-actions-button ic-table-edit">
 	</a>
-	<a onclick="return confirmSubmit()" href="delete.php?id=<?php echo $row['id'];?>&table=stock_sales&return=view_sales.php" class="table-actions-button ic-table-delete"></a>
+	
+        <a  href="javascript:confirmSubmit(<?php echo $row['id']?>,'stock_sales','view_sales.php')" class="table-actions-button ic-table-delete"></a>		
 	</td>
 	<td><input type="checkbox" value="<?php echo $row['id']; ?>" name="checklist[]" id="check_box" /></td>
+	
+    <td><a  href=sales_invoice1.php?sellid="<?php echo $row['transactionid'];?>" target="_blank">print</a>
+    </td>
 
 </tr>
 <?php $i++; } ?>
@@ -527,7 +549,7 @@ while($row = mysql_fetch_array($result))
 		</div> 
 	</div> 
 		<div id="footer">
-		<p>Any Queries email to <a href="mailto:sridharkalaibala@gmail.com?subject=Stock%20Management%20System">sridharkalaibala@gmail.com</a>.</p>
+		<p> &copy;Copyright 2013 </p>
 	
 	</div> <!-- end footer -->
 

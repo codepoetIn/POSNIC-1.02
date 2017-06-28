@@ -7,7 +7,7 @@ include_once("init.php");
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>POSNIC - Add supplier</title>
+	<title>Add Categiry</title>
 	
 	<!-- Stylesheets -->
 	<!--<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet'>-->
@@ -19,18 +19,30 @@ include_once("init.php");
 	<!-- jQuery & JS files -->
 	<?php include_once("tpl/common_js.php"); ?>
 	<script src="js/script.js"></script> 
-        
+                            
+ <script  src="dist/js/jquery.ui.draggable.js"></script>
+<script src="dist/js/jquery.alerts.js"></script>
+<link rel="stylesheet"  href="dist/js/jquery.alerts.css" >
         
         <script LANGUAGE="JavaScript">
 <!--
 // Nannette Thacker http://www.shiningstar.net
-function confirmSubmit()
-{
-var agree=confirm("Are you sure you wish to Delete this Entry?");
-if (agree)
-	return true ;
-else
-	return false ;
+function confirmSubmit(id,table,dreturn)
+{ 	     jConfirm('You Want Delete Category', 'Confirmation Dialog', function (r) {
+           if(r){ 
+               console.log();
+                $.ajax({
+  			url: "delete.php",
+  			data: { id: id, table:table,return:dreturn},
+  			success: function(data) {
+    			
+    			window.location = "view_category.php";
+                        jAlert('Category Is Deleted', 'POSNIC');
+  			}
+		});
+            }
+            return r;
+        });
 }
 
 function confirmDeleteSubmit()
@@ -45,15 +57,18 @@ for (i = 0; i < field.length; i++){
 	
 }
 if (flag <1) {
-alert ("You must check one and only one checkbox!");
+  jAlert('You must check one and only one checkbox', 'POSNIC');
 return false;
 }else{
-var agree=confirm("Are you sure you wish to Delete Selected Record?");
-if (agree)
+ jConfirm('You Want Delete Category', 'Confirmation Dialog', function (r) {
+           if(r){ 
 	
-document.deletefiles.submit();
-else
+document.deletefiles.submit();}
+else {
 	return false ;
+   
+}
+});
    
 }
 }
@@ -179,7 +194,7 @@ for (i = 0; i < field.length; i++)
 					<li><a href="add_category.php">Add Stock Category</a></li>
 					<li><a href="view_category.php">view Stock Category</a></li>
 				</ul>
-				                                    
+				                                      
 			</div> <!-- end side-menu -->
 			
 			<div class="side-content fr">
@@ -501,7 +516,7 @@ while($row = mysql_fetch_array($result))
  
     <td>	<a href="update_category.php?sid=<?php echo $row['id'];?>&table=category_details&return=view_category.php"	class="table-actions-button ic-table-edit">
 	</a>
-	<a onclick="return confirmSubmit()" href="delete.php?id=<?php echo $row['id'];?>&table=category_details&return=view_category.php" class="table-actions-button ic-table-delete"></a>
+	<a href="javascript:confirmSubmit(<?php echo $row['id'];?>,'category_details','view_category.php')" href="" class="table-actions-button ic-table-delete"></a>
 	</td>
 	<td><input type="checkbox" value="<?php echo $row['id']; ?>" name="checklist[]" id="check_box" /></td>
 
@@ -519,7 +534,7 @@ while($row = mysql_fetch_array($result))
 		</div> 
 	</div> 
 		<div id="footer">
-		<p>Any Queries email to <a href="mailto:sridharkalaibala@gmail.com?subject=Stock%20Management%20System">sridharkalaibala@gmail.com</a>.</p>
+		<p> &copy;Copyright 2013</p>
 	
 	</div> <!-- end footer -->
 

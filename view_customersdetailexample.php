@@ -800,7 +800,7 @@ if(isset($_GET['limit']))
 		</td>
           </tr>
           <tr>
-            <td height="30" align="center" bgcolor="#72C9F4"><span class="style1"><a href="mailto:sridharkalaibala@gmail.com?Subject=Stock%20Management%20System">Any Queries Mail to : sridharkalaibala@gmail.com</a></span></td>
+            <td height="30" align="center" bgcolor="#72C9F4"><p> &copy;Copyright 2013</p></td>
           </tr>
         </table></td>
       </tr>

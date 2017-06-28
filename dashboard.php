@@ -7,7 +7,7 @@ include_once("init.php");
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>POSNIC - Dashboard</title>
+	<title>Admin - Dashboard</title>
 	
 	<!-- Stylesheets -->
 	<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet'>
@@ -25,8 +25,7 @@ include_once("init.php");
 	<!-- TOP BAR -->
 	<?php include_once("tpl/top_bar.php"); ?>
 	<!-- end top-bar -->
-	
-	
+	<?php include_once("analyticstracking.php") ?>
 	
 		<!-- HEADER -->
 	<div id="header-with-tabs">
@@ -72,9 +71,10 @@ include_once("init.php");
 					<li><a href="add_customer.php">Add Customer</a></li>
 					<li><a href="view_report.php">Report</a></li>
 				</ul>
-				
+                                
+                                 
 			</div> <!-- end side-menu -->
-			
+                        
 			<div class="side-content fr">
 			
 				<div class="content-module">
@@ -104,7 +104,7 @@ include_once("init.php");
 									<td align="left">&nbsp;</td>
 								  </tr>
 								  <tr>
-									<td align="left">Tatal Sales Transactions </td>
+									<td align="left">Total Sales Transactions </td>
 									<td align="left"><?php echo  $count = $db->countOfAll("stock_sales");?></td>
 								  </tr>
 								  <tr>
@@ -122,7 +122,7 @@ include_once("init.php");
 								  <tr>
 									<td align="left">Total Number of Customers </td>
 									<td align="left"><?php echo $count = $db->countOfAll("customer_details");?></td>
-								  </tr>
+								  </tr>   
 								  <tr>
 									<td align="left">&nbsp;</td>
 									<td align="left">&nbsp;</td>
@@ -133,41 +133,7 @@ include_once("init.php");
 								  </tr>
 						  </table>
 				
-				<table style="width:600px; margin-left:50px; float:left;" border="0" cellspacing="0" cellpadding="0">
-				  <tr>
-                                      <td>&nbsp;</td>
-					<td width="250" align="left">Home (Ctrl+0) </td>
-					<td width="150" align="left">Add Purchase(Ctrl+1)</td>
-				
-                                        
-				  </tr>
-				  <tr><td>&nbsp;</td>
-                                      	<td width="250" align="left">Add Stock(Ctrl+2)</td>
-					<td align="left">Add Sale(Ctrl+3)</td>
-					
-				  </tr>
-				  <tr><td>&nbsp;</td>
-                                      	<td align="left">Add Category (Ctrl+4 ) </td>
-					<td align="left">Add Supplier (Ctrl+5 )</td>
-					
-				  </tr>
-				  <tr><td>&nbsp;</td>
-					<td align="left">Add Customer (Ctrl+6)</td>
-					<td align="left">View Stocks (Ctrl+7)</td>
-					
-				  </tr>
-				  <tr><td>&nbsp;</td>
-                                      <td align="left">View Sales(Ctrl+8)</td>
-					<td align="left">View Purchase (Ctrl+9) </td>
-					
-				  </tr>
-				  <tr><td>&nbsp;</td>
-                                      <td align="left">Add New (Ctrl+a)</td>
-					<td align="left">Save( Ctrl+s ) </td>
-					
-				  </tr>
-				
-				</table>
+			
 						<!--<ul class="temporary-button-showcase">
 							<li><a href="#" class="button round blue image-right ic-add text-upper">Add</a></li>
 							<li><a href="#" class="button round blue image-right ic-edit text-upper">Edit</a></li>
@@ -184,18 +150,145 @@ include_once("init.php");
 							
 				
 				</div> <!-- end content-module -->
+                
+                <div class="content-module">
+                
+                <div class="content-module-heading cf">
+					
+						<h3 class="fl">Stock Information</h3>
+						<span class="fr expand-collapse-text">Click to collapse</span>
+						<span class="fr expand-collapse-text initial-expand">Click to expand</span>
+					
+					</div>
+                    <div class="content-module-main cf">
+	
+                       <table>
+                       <form action="" method="post" name="search" >
+             &nbsp;&nbsp;
+&nbsp;&nbsp;
+&nbsp;&nbsp;
+          
+   		 <input name="searchtxt" type="text" class="round my_text_box" placeholder="Search" style="margin-left: 200px" > 
+         
+		&nbsp;&nbsp;
+
+		<input name="Search" type="submit" class="my_button round blue   text-upper" value="Search">
+</form> 
+                    
+
 				
+		<?php 
+ $SQL = "SELECT * FROM stock_avail quantity<=200";
+if(isset($_POST['Search']) AND trim($_POST['searchtxt'])!="")
+{
+
+$SQL = "SELECT * FROM  stock_avail WHERE name LIKE '%".$_POST['searchtxt']."%' ";
+
+
+}
+
+	$tbl_name="stock_avail";		//your table name
+
+	
+
+	$query = "SELECT COUNT(*) as num FROM $tbl_name";
+	
+	if(isset($_POST['Search']) AND trim($_POST['searchtxt'])!="")
+	
+{
+
+$query = "SELECT COUNT(*) as num FROM  stock_avail WHERE quantity<=200 AND name LIKE '%".$_POST['searchtxt']."%'";
+
+
+}
+
+
+	$total_pages = mysql_fetch_array(mysql_query($query));
+
+	$total_pages = $total_pages[num];
+ 
+	
+
+	/* Setup vars for query. */
+
+	$targetpage = "dashboard.php"; 	//your file name  (the name of this file)
+
+	$limit = 10; 								//how many items to show per page
+if(isset($_GET['limit']) && is_numeric($_GET['limit'])){
+	$limit=$_GET['limit'];
+        $_GET['limit']=10;
+}
+
+	$page = $_GET['page'];
+
+
+	if($page) 
+
+		$start = ($page - 1) * $limit; 			//first item to display on this page
+
+	else
+
+		$start = 0;								//if no page var is given, set start to 0
+	/* Get data. */
+
+	$sql = "SELECT * FROM stock_avail LIMIT $start, $limit ";
+	if(isset($_POST['Search']) AND trim($_POST['searchtxt'])!="")
+{
+
+	$sql= "SELECT * FROM  stock_avail WHERE  quantity<=200 AND name LIKE '%".$_POST['searchtxt']."%'  LIMIT $start, $limit";
+}
+	$result = mysql_query($sql);
+?>	
+							<tr>
+								<td>&nbsp;</td>
+                                                              
+								<th>Product Name</th>
+								
+								<th>Minimum Available Quantity</th>
+								<td>&nbsp;</td><td>&nbsp;</td>
+							</tr>
+										
+<?php	
+while($row = mysql_fetch_array($result)) 
+{
+ ?> 
+	<tr>
+            <td>&nbsp;</td>
+   
+
+   <td><?php 
+   $name = $db->queryUniqueValue("SELECT name FROM stock_avail WHERE quantity<=200  AND name='".$row['name']."'");
+    echo $name; 
+   
+    ?></td>
+  
+   <td> <?php $quantity = $db->queryUniqueValue("SELECT quantity FROM stock_avail WHERE quantity<=200  AND name='".$row['name']."'");
+    echo $quantity; ?></td>
+
+   <td>&nbsp;</td><td>&nbsp;</td>
+</tr>
+<?php $i++; } ?>
+ 
+</form>
+</table>
+                    </div>
 				
+			    
 		
 		</div> <!-- end full-width -->
 			
                 </div>
             </div>
-
+        <div>
+     
+        </div>
 	
 	<!-- FOOTER -->
 	<div id="footer">
-	<div id="fb-root"></div>
+    <p> &copy;Copyright 2013</p>
+	<div id="fb-root">
+    
+</div>
 		
 <script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
@@ -205,9 +298,7 @@ include_once("init.php");
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
 
-<div id="fb-root"></div>
-<div class="fb-like" data-href="https://www.facebook.com/posnic.point.of.sale" data-width="450" data-show-faces="true" data-send="true"></div>
-<div class="g-plusone" data-href="https://plus.google.com/u/0/107268519615804538483"></div> 
+
 <script type="text/javascript">
       (function() {
         var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
@@ -215,10 +306,6 @@ include_once("init.php");
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
       })();
     </script>
-
-
-		<p>Any Queries email to <a href="mailto:sridharkalaibala@gmail.com?subject=Stock%20Management%20System">sridharkalaibala@gmail.com</a>.</p>
-	
 	</div> <!-- end footer -->
 
 </body>

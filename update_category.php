@@ -103,7 +103,7 @@ include_once("init.php");
 					<li><a href="add_category.php">Add Stock Category</a></li>
 					<li><a href="view_category.php">view Stock Category</a></li>
 				</ul>
-				                       
+				                        
 			</div> <!-- end side-menu -->
 			
 			<div class="side-content fr">
@@ -135,7 +135,23 @@ include_once("init.php");
 			
 				
 			if($db->query("UPDATE category_details  SET category_name='$name',category_description='$address' where id=$id"))
-			echo "<br><font color=green size=+1 > [ $name ] Supplier Details Updated!</font>" ;
+			{ 
+                        	$data=" $name  Category Details Updated" ;
+				                                            $msg='<p style=color:#153450;font-family:gfont-family:Georgia, Times New Roman, Times, serif>'.$data.'</p>';//
+                                            ?>
+                                                    
+ <script  src="dist/js/jquery.ui.draggable.js"></script>
+<script src="dist/js/jquery.alerts.js"></script>
+<script src="dist/js/jquery.js"></script>
+<link rel="stylesheet"  href="dist/js/jquery.alerts.css" >
+                                                  
+                                            <script type="text/javascript">
+	
+					jAlert('<?php echo  $msg; ?>', 'POSNIC');
+			
+</script>
+                                                        <?php
+                        }
 			else
 			echo "<br><font color=red size=+1 >Problem in Updation !</font>" ;
 			
@@ -170,8 +186,8 @@ include_once("init.php");
                     </tr>
                    
                     <tr>
-                      <td>
-					 &nbsp;
+                      <td>&nbsp;
+					 
 					  </td>
                       <td>
                         <input  class="button round blue image-right ic-add text-upper" type="submit" name="Submit" value="Save">
@@ -198,8 +214,7 @@ include_once("init.php");
 	
 	<!-- FOOTER -->
 	<div id="footer">
-		<p>Any Queries email to <a href="mailto:sridharkalaibala@gmail.com?subject=Stock%20Management%20System">sridharkalaibala@gmail.com</a>.</p>
-	
+		<p> &copy;Copyright 2013</p>
 	</div> <!-- end footer -->
 
 </body>

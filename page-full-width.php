@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>POSNIC - Full width page</title>
+	<title>Sale Perchase System</title>
 	
 	<!-- Stylesheets -->
 <!--database connection-->
@@ -160,8 +160,9 @@ mysql_close($con);
 	<!-- FOOTER -->
 	<div id="footer">
 
-		<p>&copy; Copyright 2012 <a href="#">BlueHosting, LLC</a>. All rights reserved.</p>
-		<p><strong>SimpleAdmin</strong> theme by <a href="http://www.adipurdila.com">Adi Purdila</a></p>
+		<p> &copy;Copyright 2013</p>
+
+		
 	
 	</div> <!-- end footer -->
 

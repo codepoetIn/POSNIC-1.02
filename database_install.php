@@ -119,7 +119,7 @@ document.getElementById("name").disabled=true;
                         $link = mysql_connect("$host","$user","$pass");
 if (!$link) {
     $data="Database Configration is Not vaild";
-      header("location:instal.php?msg=$data");
+      header("location:install.php?msg=$data");
       exit;
 }
 
@@ -147,7 +147,7 @@ if (!$link) {
                                  mysqli_query($con,$sql);
   
                                     ?>
-                                    <input type="radio" value="1" name="select[]"  id="create" onclick="create_data()" >Create New DataBase
+                                    <input type="radio" value="1" name="select[]"  id="create" onClick="create_data()" >Create New DataBase
                                         <input type="text" id="name" class="round full-width-input" name="name" autofocus  />
 				<?php 
                                   }else{
@@ -162,7 +162,7 @@ if (!$link) {
                                 
                                 </p>
 				<p>					
-                                    <input type="radio" name="select[]" id="select" onclick="select_data()" >Select Created DataBase<br>
+                                    <input type="radio" name="select[]" id="select" onClick="select_data()" >Select Created DataBase<br>
                                     <select name="select_box" class="round full-width-input" id="select_box" style="padding: 5px 10px 5px 10px; border: 1px solid #D9DBDD;">
                                     <?php 
 
@@ -218,7 +218,8 @@ while( ( $db = $dbs->fetchColumn( 0 ) ) !== false )
         po.src = 'https://apis.google.com/js/plusone.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
       })();
-    </script><p>Any Queries email to <a href="mailto:sridharkalaibala@gmail.com?subject=Stock%20Management%20System">sridharkalaibala@gmail.com</a>.</p>
+    </script><p> &copy;Copyright 2013</p>
+
 		
 	
 	</div> <!-- end footer -->

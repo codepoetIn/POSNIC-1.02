@@ -1,13 +1,84 @@
 <?php
 include_once("init.php");
 
+					//Gump is libarary for Validatoin
+					
+					if(isset($_POST['name'])){
+					$_POST = $gump->sanitize($_POST);
+					$gump->validation_rules(array(
+						'name'    	  => 'required|max_len,100|min_len,3',
+						'address'     => 'max_len,200',
+						'contact1'    => 'alpha_numeric|max_len,20',
+						'contact2'    => 'alpha_numeric|max_len,20'
+					));
+				
+					$gump->filter_rules(array(
+						'name'    	  => 'trim|sanitize_string|mysql_escape',
+						'address'     => 'trim|sanitize_string|mysql_escape',
+						'contact1'    => 'trim|sanitize_string|mysql_escape',
+						'contact2'    => 'trim|sanitize_string|mysql_escape'
+					));
+				
+					$validated_data = $gump->run($_POST);
+					$name 		= "";
+					$address 	= "";
+					$contact1	= "";
+					$contact2 	= "";				
+
+					if($validated_data === false) {
+							echo $gump->get_readable_errors(true);
+					} else {
+						
+						
+							$name=mysql_real_escape_string($_POST['name']);
+							$address=mysql_real_escape_string($_POST['address']);
+							$contact1=mysql_real_escape_string($_POST['contact1']);
+							$contact2=mysql_real_escape_string($_POST['contact2']);
+							
+							$count = $db->countOf("customer_details", "customer_contact2='$contact2'");
+							if($count>=1)
+							{
+
+                                                                                                       $data='Dublicat Entry. Please Verify';
+                          $msg='<p style=color:red;font-family:gfont-family:Georgia, Times New Roman, Times, serif>'.$data.'</p>';//
+                          header("Location: add_customer.php?msg=$msg");
+						                    ?>
+                                                    
+ <script  src="dist/js/jquery.ui.draggable.js"></script>
+<script src="dist/js/jquery.alerts.js"></script>
+<script src="dist/js/jquery.js"></script>
+<link rel="stylesheet"  href="dist/js/jquery.alerts.css" >
+                                                  
+                                            <script type="text/javascript">
+	
+					jAlert('<?php echo  $msg; ?>', 'POSNIC');
+			
+</script>
+                                                        <?php
+                                      
+							}
+							else
+							{
+								
+									if($db->query("insert into customer_details values(NULL,'$name','$address','$contact1','$contact2',0)"))
+                                                                        {
+                                             $msg=" $name Customer Details Added " ;
+				header("Location: add_customer.php?msg=$msg");
+                                exit();
+                                                                        }
+									else
+										echo "<div class='error-box round'>Problem in Adding !</div>" ;
+							
+							}
+						}
+				}
 ?>
 <!DOCTYPE html>
 
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>POSNIC - Add Customer</title>
+	<title> Add Customer</title>
 	
 	<!-- Stylesheets -->
 	<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet'>
@@ -237,7 +308,18 @@ div.pagination span.current {
 					<li><a href="add_customer.php">Add Customer</a></li>
 					<li><a href="view_customers.php">View Customers</a></li>
 				</ul>
-				                                 
+				        <div style="background: #ffffff">
+                                              <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- posnic 120x90 vertical small -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:120px;height:90px"
+     data-ad-client="ca-pub-5212135413309920"
+     data-ad-slot="3677012951"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+                               
+                                </div>                              
 			</div> <!-- end side-menu -->
 			
 			<div class="side-content fr">
@@ -256,57 +338,26 @@ div.pagination span.current {
 				
 							
 					<?php
+						
+				
 					//Gump is libarary for Validatoin
-					
-					if(isset($_POST['name'])){
-					$_POST = $gump->sanitize($_POST);
-					$gump->validation_rules(array(
-						'name'    	  => 'required|max_len,100|min_len,3',
-						'address'     => 'max_len,200',
-						'contact1'    => 'alpha_numeric|max_len,20',
-						'contact2'    => 'alpha_numeric|max_len,20'
-					));
-				
-					$gump->filter_rules(array(
-						'name'    	  => 'trim|sanitize_string|mysql_escape',
-						'address'     => 'trim|sanitize_string|mysql_escape',
-						'contact1'    => 'trim|sanitize_string|mysql_escape',
-						'contact2'    => 'trim|sanitize_string|mysql_escape'
-					));
-				
-					$validated_data = $gump->run($_POST);
-					$name 		= "";
-					$address 	= "";
-					$contact1	= "";
-					$contact2 	= "";				
-
-					if($validated_data === false) {
-							echo $gump->get_readable_errors(true);
-					} else {
-						
-						
-							$name=mysql_real_escape_string($_POST['name']);
-							$address=mysql_real_escape_string($_POST['address']);
-							$contact1=mysql_real_escape_string($_POST['contact1']);
-							$contact2=mysql_real_escape_string($_POST['contact2']);
-							
-							$count = $db->countOf("customer_details", "customer_name='$name'");
-							if($count==1)
-							{
-								echo "<div class='error-box round'>Dublicat Entry. Please Verify</div>";
-							}
-							else
-							{
-								
-									if($db->query("insert into customer_details values(NULL,'$name','$address','$contact1','$contact2',0)"))
-										echo "<div class='confirmation-box round'>[ $name ] Customer Details Added !</div>" ;
-									else
-										echo "<div class='error-box round'>Problem in Adding !</div>" ;
-							
-							}
-						}
-				}
-				
+					 if(isset($_GET['msg'])){
+                                                                              $data=$_GET['msg'];
+                                            $msg='<p style=color:#153450;font-family:gfont-family:Georgia, Times New Roman, Times, serif>'.$data.'</p>';//
+                                            ?>
+                                                    
+ <script  src="dist/js/jquery.ui.draggable.js"></script>
+<script src="dist/js/jquery.alerts.js"></script>
+<script src="dist/js/jquery.js"></script>
+<link rel="stylesheet"  href="dist/js/jquery.alerts.css" >
+                                                  
+                                            <script type="text/javascript">
+	
+					jAlert('<?php echo  $msg; ?>', 'POSNIC');
+			
+</script>
+                                                        <?php
+                                        }
 				?>
 				
 				<form name="form1" method="post" id="form1" action="">
@@ -327,8 +378,8 @@ div.pagination span.current {
                     <tr>
                       <td>Address</td>
                       <td><textarea name="address" placeholder="ENTER YOUR ADDRESS"cols="15" class="round full-width-textarea"><?php echo $address; ?></textarea></td>
-                   <td>Contact 2 </td>
-                      <td><input name="contact2" placeholder="ENTER YOUR contact2"type="text" id="sellingrate" maxlength="20"  class="round default-width-input" 
+                   <td>Cnic </td>
+                      <td><input name="contact2" placeholder="ENTER YOUR CNIC" type="text" id="sellingrate" maxlength="20"  class="round default-width-input" 
 					  value="<?php echo $contact2; ?>" /></td>
                     
                     </tr>
@@ -338,14 +389,14 @@ div.pagination span.current {
                       <td>&nbsp;</td>
                     </tr>
                     <tr>
-                      <td>
-					 &nbsp;
+                      <td>&nbsp;
+					 
 					  </td>
                       <td>
                         <input  class="button round blue image-right ic-add text-upper" type="submit" name="Submit" value="Add">
 						(Control + S)
-					 <td>
-					 &nbsp;
+					 <td>&nbsp;
+					 
 					  </td>  
 					  <td align="right"><input class="button round red text-upper" type="reset" name="Reset" value="Reset"> </td>
                     </tr>
@@ -368,7 +419,8 @@ div.pagination span.current {
 	
 	<!-- FOOTER -->
 	<div id="footer">
-		<p>Any Queries email to <a href="mailto:sridharkalaibala@gmail.com?subject=Stock%20Management%20System">sridharkalaibala@gmail.com</a>.</p>
+		<p> &copy;Copyright 2013</p>
+
 	
 	</div> <!-- end footer -->
 

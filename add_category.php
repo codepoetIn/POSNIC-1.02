@@ -7,7 +7,7 @@ include_once("init.php");
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>POSNIC - Add Stock Category</title>
+	<title>Add Stock Category</title>
 	
 	<!-- Stylesheets -->
 	<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet'>
@@ -18,7 +18,7 @@ include_once("init.php");
 	
 	<!-- jQuery & JS files -->
 	<?php include_once("tpl/common_js.php"); ?>
-	<script src="js/script.js"></script>  
+<script src="js/script.js"></script>  
 		<script>
 	/*$.validator.setDefaults({
 		submitHandler: function() { alert("submitted!"); }
@@ -160,8 +160,11 @@ include_once("init.php");
 			else
 			{
 				
-			if($db->query("insert into category_details values(NULL,'$name','$address')"))
-			echo "<br><font color=green size=+1 > [ $name ] Category Details Added !</font>" ;
+			if($db->query("insert into category_details values(NULL,'$name','$address')")){
+			
+                           $msg="  $name  Category Details Added" ;
+				header("Location: add_category.php?msg=$msg");  
+                        }
 			else
 			echo "<br><font color=red size=+1 >Problem in Adding !</font>" ;
 			
@@ -172,7 +175,23 @@ include_once("init.php");
 							
 							}
 						
-				
+				  if(isset($_GET['msg'])){
+                                             $data=$_GET['msg'];
+                                            $msg='<p style=color:#153450;font-family:gfont-family:Georgia, Times New Roman, Times, serif>'.$data.'</p>';//
+                                            ?>
+                                                    
+ <script  src="dist/js/jquery.ui.draggable.js"></script>
+<script src="dist/js/jquery.alerts.js"></script>
+<script src="dist/js/jquery.js"></script>
+<link rel="stylesheet"  href="dist/js/jquery.alerts.css" >
+                                                  
+                                            <script type="text/javascript">
+	
+					jAlert('<?php echo  $msg; ?>', 'POSNIC');
+			
+</script>
+                                                        <?php
+                                         }
 				
 				?>
 				
@@ -201,8 +220,8 @@ include_once("init.php");
                     
                     
                     <tr>
-                      <td>
-					 &nbsp;
+                      <td>&nbsp;
+					 
 					  </td>
                       <td>
                         <input  class="button round blue image-right ic-add text-upper" type="submit" name="Submit" value="Add">
@@ -229,8 +248,7 @@ include_once("init.php");
 	
 	<!-- FOOTER -->
 	<div id="footer">
-		<p>Any Queries email to <a href="mailto:sridharkalaibala@gmail.com?subject=Stock%20Management%20System">sridharkalaibala@gmail.com</a>.</p>
-	
+		<p> &copy;Copyright 2013</p>	
 	</div> <!-- end footer -->
 
 </body>

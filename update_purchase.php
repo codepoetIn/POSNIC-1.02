@@ -7,7 +7,7 @@ include_once("init.php");
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>POSNIC - Update Supplier</title>
+	<title>Business Torch- Update Supplier</title>
 	
 	<!-- Stylesheets -->
 	<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet'>
@@ -462,8 +462,21 @@ function quantity_chnage(e){
 			$i++;
 			$j++;
 			}
-				echo "<br><font color=green size=+1 >Parchase order Updated successfully Ref: [ $autoid] !</font>" ;
-				
+				$data="Parchase order Updated successfully Ref: [ $autoid] " ;
+				                                            $msg='<p style=color:#153450;font-family:gfont-family:Georgia, Times New Roman, Times, serif>'.$data.'</p>';//
+                                            ?>
+                                                    
+ <script  src="dist/js/jquery.ui.draggable.js"></script>
+<script src="dist/js/jquery.alerts.js"></script>
+<script src="dist/js/jquery.js"></script>
+<link rel="stylesheet"  href="dist/js/jquery.alerts.css" >
+                                                  
+                                            <script type="text/javascript">
+	
+					jAlert('<?php echo  $msg; ?>', 'POSNIC');
+			
+</script>
+                                                        <?php
 				
 				
 				}
@@ -474,10 +487,12 @@ function quantity_chnage(e){
                                 $line = $db->queryUniqueObject("SELECT * FROM stock_entries WHERE stock_id='$id'");	
 				?>
 				<form name="form1" method="post" id="form1" action="">
+                                      <div class="mytable_row ">
                       <input type="hidden" id="posnic_total" >
                       <input type="hidden" name="id" value="<?php echo $id ?>" >
                  
                   <table class="form"  border="0" cellspacing="0" cellpadding="0">
+
                     <tr>
                                <?php
 					  $max = $db->maxOfAll("id","stock_sales");
@@ -505,22 +520,23 @@ function quantity_chnage(e){
                        
                     </tr>
                   </table>
+                                      </div><br>
                   <input type="hidden" id="guid">
                   <input type="hidden" id="edit_guid">
                    <table id="hideen_display">
                          <tr >
                           <td>Item:</td>
-                           <td> &nbsp;</td>
-                           <td> &nbsp;</td>
-                           <td> &nbsp;</td>
+                           <td>&nbsp; </td>
+                           <td>&nbsp; </td>
+                           <td>&nbsp; </td>
                           <td>Quantity:</td>
                           <td>Cost:</td>
                           <td>Selling:</td>
                           <td>Available Stock:</td>
                           <td>Total</td>
-                           <td> &nbsp;</td>
-                           <td> &nbsp;</td>
-                           <td> &nbsp;</td>
+                           <td>&nbsp; </td>
+                           <td>&nbsp; </td>
+                           <td>&nbsp; </td>
                       </tr>
                   </table>
                   <table class="form" id="display" style="display:none">
@@ -564,7 +580,7 @@ function quantity_chnage(e){
                                         
                      <tr>
                            
-                         <td><input name="stock_name[]"  type="text" id="<?php echo $item."st"?>" maxlength="20" style="width: 150px" readonly="readonly"  class="round "
+                         <td><input name="stock_name[]"  type="text" id="<?php echo $item."st"?>" maxlength="100" style="width: 150px" readonly="readonly"  class="round "
                                  value="<?php echo $line1->stock_name ; ?>" /></td>
                   
                       <td><input name="quantity[]"  type="text" id="<?php echo $item."q"?>" maxlength="20"  class="round my_with" 
@@ -591,18 +607,18 @@ function quantity_chnage(e){
                     </table>
                    </div>
                      
-                  
+                  <div class="mytable_row "> 
                     
                   <table class="form">
-                    <tr> <td> &nbsp;</td>
+                    <tr> <td>&nbsp; </td>
                         <td>Payment:<input type="text"  class="round" value="<?php  echo $line->payment ; ?>" onkeyup=" balance_amount(); return numbersonly(event);"  name="payment" id="payment" >
                       </td>
-                      <td> &nbsp;</td>
+                      <td>&nbsp; </td>
                     <td>Balance:<input type="text"  class="round" value="<?php echo $line->balance ; ?>" id="balance" name="balance" >               
                       </td>
-                      <td> &nbsp;</td>
+                      <td>&nbsp; </td>
                    
-                      <td> &nbsp;</td><td> &nbsp;</td><td> &nbsp;</td><td> &nbsp;</td>
+                      <td>&nbsp; </td><td>&nbsp; </td><td>&nbsp; </td><td>&nbsp; </td>
                        <td>Grand Total:<input type="hidden" readonly="readonly" id="grand_total" value="<?php echo $line->subtotal ; ?>" name="subtotal" > 
                         <input type="text" id="main_grand_total" class="round default-width-input" value="<?php echo $line->subtotal ; ?>" style="text-align:right;width: 120px" >
                     </td>
@@ -610,21 +626,22 @@ function quantity_chnage(e){
                   <table>
                   <tr> <td>Mode &nbsp;</td><td>
                       <select name="mode">
+                          <option value="cash">Cash</option>
                       <option value="cheque">Cheque</option>
-                      <option value="cheque">Cash</option>
-                      <option value="cheque">Other</option>
+                      
+                      <option value="other">Other</option>
                       </select>
                       </td>
                       <td>
                        Due Date:<input type="text" name="due" id="test2" value="<?php echo date('d-m-Y');?>" class="round">
                   </td>
-                    <td> &nbsp;</td><td> &nbsp;</td>              
+                    <td>&nbsp; </td><td>&nbsp; </td>              
              
                   <td>Description</td>
                   <td><textarea name="description"><?php  echo $line->description ;  ?></textarea></td>
-                  <td> &nbsp;</td>
-                  <td> &nbsp;</td>
-                  <td> &nbsp;</td>
+                  <td>&nbsp; </td>
+                  <td>&nbsp; </td>
+                  <td>&nbsp; </td>
                   </tr>
                   </table>
                                  <table class="form">
@@ -633,9 +650,9 @@ function quantity_chnage(e){
                         <input  class="button round blue image-right ic-add text-upper" type="submit" name="Submit" value="Add">
                      </td><td>			(Control + S)
                      <input class="button round red   text-upper"  type="reset" name="Reset" value="Reset"> </td>
-                     <td> &nbsp;</td> <td> &nbsp;</td>
+                     <td>&nbsp; </td> <td>&nbsp; </td>
                     </tr>
-                </table>
+                </table></div>
                 </form>
 						
 				
@@ -654,8 +671,7 @@ function quantity_chnage(e){
 	
 	<!-- FOOTER -->
 	<div id="footer">
-		<p>Any Queries email to <a href="mailto:sridharkalaibala@gmail.com?subject=Stock%20Management%20System">sridharkalaibala@gmail.com</a>.</p>
-	
+		<p>Any Queries email to <a href="#">support@biztorch.com</a>.</p>
 	</div> <!-- end footer -->
 
 </body>

@@ -7,7 +7,7 @@ include_once("init.php");
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>POSNIC - Stock</title>
+	<title>Stock</title>
 	
 	<!-- Stylesheets -->
 	<!--<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet'>-->
@@ -19,19 +19,31 @@ include_once("init.php");
 	<!-- jQuery & JS files -->
 	<?php include_once("tpl/common_js.php"); ?>
 	<script src="js/script.js"></script> 
-        
+ <script  src="dist/js/jquery.ui.draggable.js"></script>
+<script src="dist/js/jquery.alerts.js"></script>
+<link rel="stylesheet"  href="dist/js/jquery.alerts.css" >
         
         <script LANGUAGE="JavaScript">
 <!--
 // Nannette Thacker http://www.shiningstar.net
-function confirmSubmit()
-{
-var agree=confirm("Are you sure you wish to Delete this Entry?");
-if (agree)
-	return true ;
-else
-	return false ;
+function confirmSubmit(id,table,dreturn)
+{ 	     jConfirm('You Want Delete Product', 'Confirmation Dialog', function (r) {
+           if(r){ 
+               console.log();
+                $.ajax({
+  			url: "delete.php",
+  			data: { id: id, table:table,return:dreturn},
+  			success: function(data) {
+    			window.location ='view_product.php';
+    			
+                        jAlert('Product Is Deleted', 'POSNIC');
+  			}
+		});
+            }
+            return r;
+        });
 }
+
 
 function confirmDeleteSubmit()
 {
@@ -45,16 +57,19 @@ for (i = 0; i < field.length; i++){
 	
 }
 if (flag <1) {
-alert ("You must check one and only one checkbox!");
+
+  jAlert('You must check one and only one checkbox', 'POSNIC');
 return false;
 }else{
-var agree=confirm("Are you sure you wish to Delete Selected Record?");
-if (agree)
+ jConfirm('You Want Delete Product', 'Confirmation Dialog', function (r) {
+           if(r){ 
 	
-document.deletefiles.submit();
-else
+document.deletefiles.submit();}
+else {
 	return false ;
    
+}
+});
 }
 }
 function confirmLimitSubmit()
@@ -180,7 +195,18 @@ for (i = 0; i < field.length; i++)
 					<li><a href="view_category.php">view Stock Category</a></li>
 					<li><a href="view_stock_availability.php">view Stock Available</a></li>
 				</ul>
-				                                 
+				     <div style="background: #ffffff">
+                                              <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- posnic 120x90 vertical small -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:120px;height:90px"
+     data-ad-client="ca-pub-5212135413309920"
+     data-ad-slot="3677012951"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+                               
+                                </div>                                 
 			</div> <!-- end side-menu -->
 			
 			<div class="side-content fr">
@@ -509,8 +535,9 @@ while($row = mysql_fetch_array($result))
 
     <td>	<a href="update_stock.php?sid=<?php echo $row['id'];?>&table=stock_details&return=view_product.php"	class="table-actions-button ic-table-edit">
 	</a>
-	<a onclick="return confirmSubmit()" href="delete.php?id=<?php echo $row['id'];?>&table=stock_details&return=view_supplier.php" class="table-actions-button ic-table-delete"></a>
-	</td>
+	
+<a  href="javascript:confirmSubmit(<?php echo $row['id'];?>,'stock_details','view_product.php')" class="table-actions-button ic-table-delete"></a>	
+    </td>
 	<td><input type="checkbox" value="<?php echo $row['id']; ?>" name="checklist[]" id="check_box" /></td>
 
 </tr>
@@ -527,7 +554,7 @@ while($row = mysql_fetch_array($result))
 		</div> 
 	</div> 
 		<div id="footer">
-		<p>Any Queries email to <a href="mailto:sridharkalaibala@gmail.com?subject=Stock%20Management%20System">sridharkalaibala@gmail.com</a>.</p>
+	<p> &copy;Copyright 2013</p>
 	
 	</div> <!-- end footer -->
 

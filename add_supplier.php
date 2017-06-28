@@ -7,7 +7,7 @@ include_once("init.php");
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>POSNIC - Add Supplier</title>
+	<title>Add Supplier</title>
 	
 	<!-- Stylesheets -->
 	<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet'>
@@ -114,7 +114,7 @@ include_once("init.php");
 					<li><a href="add_supplier.php">Add Supplier</a></li>
 					<li><a href="view_supplier.php">View Supplier</a></li>
 				</ul>
-				                                                           
+				                                                     
 			</div> <!-- end side-menu -->
 			
 			<div class="side-content fr">
@@ -167,16 +167,35 @@ include_once("init.php");
 							$contact1=mysql_real_escape_string($_POST['contact1']);
 							$contact2=mysql_real_escape_string($_POST['contact2']);
 						
-						$count = $db->countOf("supplier_details", "supplier_name='$name'");
-		if($count==1)
+						$count = $db->countOf("supplier_details", "supplier_contact2='$contact2'");
+		if($count>=1)
 			{
-		echo "<font color=red> Dublicat Entry. Please Verify</font>";
+	                                     $data='Dublicat Entry. Please Verify';
+                                            $msg='<p style=color:red;font-family:gfont-family:Georgia, Times New Roman, Times, serif>'.$data.'</p>';//
+											header("Location: add_supplier.php?msg=$msg");
+                                            ?>
+                                                    
+ <script  src="dist/js/jquery.ui.draggable.js"></script>
+<script src="dist/js/jquery.alerts.js"></script>
+<script src="dist/js/jquery.js"></script>
+<link rel="stylesheet"  href="dist/js/jquery.alerts.css" >
+                                                  
+                                            <script type="text/javascript">
+	
+					jAlert('<?php echo  $msg; ?>', 'POSNIC');
+			
+</script>
+                                                        <?php
+                                      
 			}
 			else
 			{
 				
 			if($db->query("insert into supplier_details values(NULL,'$name','$address','$contact1','$contact2',0)"))
-			echo "<br><font color=green size=+1 > [ $name ] Supplier Details Added !</font>" ;
+			{
+                         $msg="$name  Supplier Details Added" ;
+				header("Location: add_supplier.php?msg=$msg");
+                        }
 			else
 			echo "<br><font color=red size=+1 >Problem in Adding !</font>" ;
 			
@@ -187,8 +206,24 @@ include_once("init.php");
 							
 							}
 						
-				
-				
+				//Gump is libarary for Validatoin
+                                         if(isset($_GET['msg'])){
+                                             $data=$_GET['msg'];
+                                            $msg='<p style=color:#153450;font-family:gfont-family:Georgia, Times New Roman, Times, serif>'.$data.'</p>';//
+                                            ?>
+                                                    
+ <script  src="dist/js/jquery.ui.draggable.js"></script>
+<script src="dist/js/jquery.alerts.js"></script>
+<script src="dist/js/jquery.js"></script>
+<link rel="stylesheet"  href="dist/js/jquery.alerts.css" >
+                                                  
+                                            <script type="text/javascript">
+	
+					jAlert('<?php echo  $msg; ?>', 'POSNIC');
+			
+</script>
+                                                        <?php
+                                         }
 				?>
 				
 				<form name="form1" method="post" id="form1" action="">
@@ -199,7 +234,7 @@ include_once("init.php");
                       <td><span class="man">*</span>Name:</td>
                       <td><input name="name"placeholder="ENTER YOUR FULL NAME" type="text" id="name" maxlength="200"  class="round default-width-input" value="<?php echo $name; ?>" /></td>
                        <td>Contact 1 </td>
-                      <td><input name="contact1" placeholder="ENTER YOUR ADDRESS contact1"type="text" id="buyingrate" maxlength="20"   class="round default-width-input" 
+                      <td><input name="contact1" placeholder="ENTER YOUR CONTACT"type="text" id="buyingrate" maxlength="20"   class="round default-width-input" 
 					  value="<?php echo $contact1; ?>" /></td>
                     </tr>
                     <tr>
@@ -209,8 +244,8 @@ include_once("init.php");
                     <tr>
                       <td>Address</td>
                       <td><textarea name="address" placeholder="ENTER YOUR ADDRESS"cols="8" class="round full-width-textarea"><?php echo $address; ?></textarea></td>
-                        <td>Contact 2 </td>
-                      <td><input name="contact2"placeholder="ENTER YOUR contact2" type="text" id="sellingrate" maxlength="20"  class="round default-width-input" 
+                        <td>CNIC </td>
+                      <td><input name="contact2"placeholder="ENTER YOUR CNIC" type="text" id="sellingrate" maxlength="20"  class="round default-width-input" 
 					  value="<?php echo $contact2; ?>" /></td>
                     </tr>
                     <tr>
@@ -220,8 +255,8 @@ include_once("init.php");
                     
                     
                     <tr>
-                      <td>
-					 &nbsp;
+                      <td>&nbsp;
+					 
 					  </td>
                       <td>
                         <input  class="button round blue image-right ic-add text-upper" type="submit" name="Submit" value="Add">
@@ -248,8 +283,7 @@ include_once("init.php");
 	
 	<!-- FOOTER -->
 	<div id="footer">
-		<p>Any Queries email to <a href="mailto:sridharkalaibala@gmail.com?subject=Stock%20Management%20System">sridharkalaibala@gmail.com</a>.</p>
-	
+		<p> &copy;Copyright 2013</p>
 	</div> <!-- end footer -->
 
 </body>
