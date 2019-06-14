@@ -113,7 +113,7 @@ document.getElementById('printButton').style.visibility="visible";
               </tr>
 			  <?php 
 			  $result = $db->query("SELECT * FROM stock_entries where  type='entry' AND date BETWEEN '$fromdate' AND '$todate' ");
-while ($line = mysql_fetch_array($result)) {
+while ($line = mysqli_fetch_array($result)) {
 ?>
 			
 				<tr>

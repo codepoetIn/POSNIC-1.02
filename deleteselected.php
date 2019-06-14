@@ -15,7 +15,7 @@ else
 									{
 			
  $SQL = "SELECT * FROM $tablename where id=$singleVar";
-$result=mysql_query($SQL) or die(mysql_error());
+$result=mysqli_query($db->conn, $SQL) or die(mysqli_error());
   $checkuser=mysql_num_rows($result);
  		if($checkuser>0) {
 								
@@ -59,7 +59,7 @@ $result=mysql_query($SQL) or die(mysql_error());
 					}
 									
 									
-								mysql_query("DELETE FROM $tablename WHERE id=$singleVar") or die(mysql_error()); 
+								mysqli_query($db->conn, "DELETE FROM $tablename WHERE id=$singleVar") or die(mysqli_error()); 
 							
 								$i++;		
 					}

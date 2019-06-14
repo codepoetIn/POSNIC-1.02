@@ -15,11 +15,14 @@ class GUMP
 	protected $validation_rules = array();
 	
 	// Filter rules for execution
-	protected $filter_rules = array(); 
+	protected $filter_rules = array();
+	var $conn = null;
 	
 	// Instance attribute containing errors from last run
 	protected $errors = array();
-	
+	function __construct($base, $server, $user, $pass) {
+		$this->conn = $myconnection = mysqli_connect($server, $user, $pass, $base);
+	}
 	// ** ------------------------- Validation Data ------------------------------- ** //	
 	
 	public static $basic_tags	  = "<br><p><a><strong><b><i><em><img><blockquote><code><dd><dl><hr><h1><h2><h3><h4><h5><h6><label><ul><li><span><sub><sup>";				
@@ -614,7 +617,7 @@ class GUMP
 	 */	
 	protected function filter_mysql_escape($value, $params = NULL)
 	{
-		return mysql_real_escape_string($value);
+		return mysqli_real_escape_string($this->conn, $value);
 	}
 
 	

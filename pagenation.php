@@ -53,9 +53,9 @@ $query = "SELECT COUNT(*) as num FROM  customer_details WHERE customer_name LIKE
 }
 
 
-	$total_pages = mysql_fetch_array(mysql_query($query));
+	$total_pages = mysqli_fetch_array(mysqli_query($db->conn, $query));
 
-	$total_pages = $total_pages[num];
+	$total_pages = $total_pages["num"];
 
 	
 
@@ -92,7 +92,7 @@ if(isset($_GET['limit']))
 }
 
 
-	$result = mysql_query($sql);
+	$result = mysqli_query($db->conn, $sql);
 
 	
 
@@ -335,14 +335,14 @@ Page per Record<input name="limit" type="text"  style="margin-left:5px;" value="
 		$con = mysql_connect('localhost', 'root', '');
 if (!$con)
   {
-  die('Could not connect: ' . mysql_error());
+  die('Could not connect: ' . mysqli_error());
   }
 
 mysql_select_db("stock", $con);
 
 $sql="SELECT * FROM customer_details" ;
 
-$result = mysql_query($sql); 
+$result = mysqli_query($db->conn, $sql); 
 ?>
 							<tr>
 								<th>id</th>
@@ -356,7 +356,7 @@ $result = mysql_query($sql);
 						
 
 						
-<?php	while($row = mysql_fetch_array($result)) 
+<?php	while($row = mysqli_fetch_array($result)) 
 {
  ?> 
 	<tr>

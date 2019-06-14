@@ -133,11 +133,11 @@ include_once("init.php");
 
             {
 			
-			$id=mysql_real_escape_string($_POST['id']);
-			$name=  trim(mysql_real_escape_string($_POST['name']));
-			$address=trim(mysql_real_escape_string($_POST['address']));
-			$contact1=trim(mysql_real_escape_string($_POST['contact1']));
-			$contact2=trim(mysql_real_escape_string($_POST['contact2']));
+			$id=mysqli_real_escape_string($db->conn, $_POST['id']);
+			$name=  trim(mysqli_real_escape_string($db->conn, $_POST['name']));
+			$address=trim(mysqli_real_escape_string($db->conn, $_POST['address']));
+			$contact1=trim(mysqli_real_escape_string($db->conn, $_POST['contact1']));
+			$contact2=trim(mysqli_real_escape_string($db->conn, $_POST['contact2']));
 			
 			
 				

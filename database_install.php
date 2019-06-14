@@ -116,7 +116,7 @@ document.getElementById("name").disabled=true;
             $user= trim($_POST['username']);
             $pass= trim($_POST['password']); 
              }
-                        $link = mysql_connect("$host","$user","$pass");
+                        $link = mysqli_connect("$host","$user","$pass");
 if (!$link) {
     $data="Database Configration is Not vaild";
       header("location:instal.php?msg=$data");

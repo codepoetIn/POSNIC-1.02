@@ -421,12 +421,12 @@ function balance_amount(){
 					} else {
                                             $username = $_SESSION['username'];
                                             
-							$stockid=mysql_real_escape_string($_POST['stockid']);
+							$stockid=mysqli_real_escape_string($db->conn, $_POST['stockid']);
 						
-							$bill_no =mysql_real_escape_string($_POST['bill_no']);
-							$supplier=mysql_real_escape_string($_POST['supplier']);
-							$address=mysql_real_escape_string($_POST['address']);
-							$contact=mysql_real_escape_string($_POST['contact']);
+							$bill_no =mysqli_real_escape_string($db->conn, $_POST['bill_no']);
+							$supplier=mysqli_real_escape_string($db->conn, $_POST['supplier']);
+							$address=mysqli_real_escape_string($db->conn, $_POST['address']);
+							$contact=mysqli_real_escape_string($db->conn, $_POST['contact']);
 							$stock_name=$_POST['stock_name'];
                                                        
                                                      $count = $db->countOf("supplier_details", "supplier_name='$supplier'");
@@ -440,11 +440,11 @@ function balance_amount(){
 							$cost=$_POST['cost'];
 							$total=$_POST['total'];
 							$subtotal=$_POST['subtotal'];
-							$description=mysql_real_escape_string($_POST['description']);
-							$due=mysql_real_escape_string($_POST['duedate']);
-							$payment=mysql_real_escape_string($_POST['payment']);
-							$balance=mysql_real_escape_string($_POST['balance']);
-							$mode=mysql_real_escape_string($_POST['mode']);
+							$description=mysqli_real_escape_string($db->conn, $_POST['description']);
+							$due=mysqli_real_escape_string($db->conn, $_POST['duedate']);
+							$payment=mysqli_real_escape_string($db->conn, $_POST['payment']);
+							$balance=mysqli_real_escape_string($db->conn, $_POST['balance']);
+							$mode=mysqli_real_escape_string($db->conn, $_POST['mode']);
                                    
 					  $autoid=$_POST['stockid'];
 					  $autoid1=$autoid;                   
@@ -484,7 +484,7 @@ function balance_amount(){
                         }
 			}		
                         $msg="<br><font color=green size=6px >Parchase order Added successfully Ref: [". $_POST['stockid']."] !</font>" ;
-				header("Location: add_purchase.php?msg=$msg");
+				//header("Location: add_purchase.php?msg=$msg");
 							}
 						
                                         }
