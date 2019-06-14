@@ -285,10 +285,10 @@ div.pagination span.current {
 					} else {
 						
 						
-							$name=mysql_real_escape_string($_POST['name']);
-							$address=mysql_real_escape_string($_POST['address']);
-							$contact1=mysql_real_escape_string($_POST['contact1']);
-							$contact2=mysql_real_escape_string($_POST['contact2']);
+							$name=mysqli_real_escape_string($db->conn, $_POST['name']);
+							$address=mysqli_real_escape_string($db->conn, $_POST['address']);
+							$contact1=mysqli_real_escape_string($db->conn, $_POST['contact1']);
+							$contact2=mysqli_real_escape_string($db->conn, $_POST['contact2']);
 							
 							$count = $db->countOf("customer_details", "customer_name='$name'");
 							if($count==1)

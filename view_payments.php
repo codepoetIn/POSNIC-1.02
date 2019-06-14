@@ -252,9 +252,9 @@ $query = "SELECT COUNT(*) as num FROM stock_sales WHERE stock_name LIKE '%".$_PO
 
 
 }
-	$total_pages = mysql_fetch_array(mysql_query($query));
+	$total_pages = mysqli_fetch_array(mysqli_query($db->conn, $query));
 
-	$total_pages = $total_pages[num];
+	$total_pages = $total_pages["num"];
 
 	
 
@@ -288,7 +288,7 @@ $sql = "SELECT DISTINCT(transactionid) FROM  stock_sales WHERE stock_name LIKE '
 
 }
 
-	$result = mysql_query($sql);
+	$result = mysqli_query($db->conn, $sql);
 
 
 	/* Setup page vars for display. */
@@ -480,7 +480,7 @@ $sql = "SELECT DISTINCT(transactionid) FROM  stock_sales WHERE stock_name LIKE '
 							</tr>
 										
 <?php $i=1; $no=$page-1; $no=$no*$limit;	
-while($row = mysql_fetch_array($result)) 
+while($row = mysqli_fetch_array($result)) 
 {
 
 

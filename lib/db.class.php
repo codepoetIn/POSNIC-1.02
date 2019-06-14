@@ -11,7 +11,7 @@
     /** Put this variable to true if you want ALL queries to be debugged by default:
       */
     var $defaultDebug = false;
-
+    var $conn = null;
     /** INTERNAL: The start time, in miliseconds.
       */
     var $mtStart;
@@ -24,20 +24,17 @@
 
     /** Connect to a MySQL database to be able to use the methods below.
       */
-    function DB($base, $server, $user, $pass)
-    {
+    function __construct($base, $server, $user, $pass) {
+      
       $this->mtStart    = $this->getMicroTime();
       $this->nbQueries  = 0;
       $this->lastResult = NULL;
-     $myconnection = mysql_connect($server, $user, $pass);
-     $myconnection =  mysql_select_db($base)              ;
-      
+      $this->conn = $myconnection = mysqli_connect($server, $user, $pass, $base);      
       if ($myconnection==FALSE) {
-          $data='Database Connection is Not valid Please Enter The valid database connection';
-   header("location:install.php?msg=$data");
-    exit;
-       
-}
+        $data='Database Connection is Not valid Please Enter The valid database connection';
+        header("location:install.php?msg=$data");
+        exit; 
+      }
     }
 
     /** Query the database.
@@ -48,7 +45,7 @@
     function query($query, $debug = -1)
     {
       $this->nbQueries++;
-      $this->lastResult = mysql_query($query) or $this->debugAndDie($query);
+      $this->lastResult = mysqli_query($this->conn, $query) or $this->debugAndDie($query);
 
       $this->debug($debug, $query, $this->lastResult);
 
@@ -62,7 +59,7 @@
     function execute($query, $debug = -1)
     {
       $this->nbQueries++;
-      mysql_query($query) or $this->debugAndDie($query);
+      mysqli_query($this->conn, $query) or $this->debugAndDie($query);
 
       $this->debug($debug, $query);
     }
@@ -75,10 +72,10 @@
       if ($result == NULL)
         $result = $this->lastResult;
 
-      if ($result == NULL || mysql_num_rows($result) < 1)
+      if ($result == NULL || mysqli_num_rows($result) < 1)
         return NULL;
       else
-        return mysql_fetch_object($result);
+        return mysqli_fetch_object($result);
     }
     /** Get the number of rows of a query.
       * @param $result The ressource returned by query(). If NULL, the last result returned by query() will be used.
@@ -87,9 +84,9 @@
     function numRows($result = NULL)
     {
       if ($result == NULL)
-        return mysql_num_rows($this->lastResult);
+        return mysqli_num_rows($this->lastResult);
       else
-        return mysql_num_rows($result);
+        return mysqli_num_rows($result);
     }
     /** Get the result of the query as an object. The query should return a unique row.\n
       * Note: no need to add "LIMIT 1" at the end of your query because
@@ -103,11 +100,11 @@
       $query = "$query LIMIT 1";
 
       $this->nbQueries++;
-      $result = mysql_query($query) or $this->debugAndDie($query);
+      $result = mysqli_query($this->conn, $query) or $this->debugAndDie($query);
 
       $this->debug($debug, $query, $result);
 
-      return mysql_fetch_object($result);
+      return mysqli_fetch_object($result);
     }
     /** Get the result of the query as value. The query should return a unique cell.\n
       * Note: no need to add "LIMIT 1" at the end of your query because
@@ -121,8 +118,8 @@
       $query = "$query LIMIT 1";
 
       $this->nbQueries++;
-      $result = mysql_query($query) or $this->debugAndDie($query);
-      $line = mysql_fetch_row($result);
+      $result = mysqli_query($this->conn, $query) or $this->debugAndDie($query);
+      $line = mysqli_fetch_row($result);
 
       $this->debug($debug, $query, $result);
 
@@ -171,7 +168,7 @@
     function debugAndDie($query)
     {
       $this->debugQuery($query, "Error");
-      die("<p style=\"margin: 2px;\">".mysql_error()."</p></div>");
+      die("<p style=\"margin: 2px;\">".mysqli_error($this->conn)."</p></div>");
     }
     /** Internal function to debug a MySQL query.\n
       * Show the query and output the resulting table if not NULL.
@@ -239,7 +236,7 @@
         echo "<th>".$fields[$i]."</th>";
       echo "</thead>";
       // END HEADER
-      while ($row = mysql_fetch_array($result)) {
+      while ($row = mysqli_fetch_array($result)) {
         echo "<tr>";
         for ($i = 0; $i < $numFields; $i++)
           echo "<td>".htmlentities($row[$i])."</td>";

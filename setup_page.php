@@ -15,7 +15,7 @@
             $_SESSION['user']=$user;
             $_SESSION['pass']=$pass;
             $_SESSION['db_name']=$name;
-                    $link = mysql_connect("$host","$user","$pass");
+                    $link = mysqli_connect("$host","$user","$pass");
 if (!$link) {
     $data="Database Configration is Not vaild";
       header("location:instal.php?msg=$data");

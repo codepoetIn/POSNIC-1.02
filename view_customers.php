@@ -256,9 +256,9 @@ $query = "SELECT COUNT(*) as num FROM  customer_details WHERE customer_name  LIK
 }
 
 
-	$total_pages = mysql_fetch_array(mysql_query($query));
+	$total_pages = mysqli_fetch_array(mysqli_query($db->conn, $query));
 
-	$total_pages = $total_pages[num];
+	$total_pages = $total_pages["num"];
  
 	
 
@@ -297,7 +297,7 @@ if(isset($_GET['limit']) && is_numeric($_GET['limit'])){
 }
 
 
-	$result = mysql_query($sql);
+	$result = mysqli_query($db->conn, $sql);
 
 	
 
@@ -487,7 +487,7 @@ if(isset($_GET['limit']) && is_numeric($_GET['limit'])){
                                                                 <th>Select</th>
 							</tr>
 										
-<?php $i=1; $no=$page-1; $no=$no*$limit;	while($row = mysql_fetch_array($result)) 
+<?php $i=1; $no=$page-1; $no=$no*$limit;	while($row = mysqli_fetch_array($result)) 
 {
  ?> 
 	<tr>

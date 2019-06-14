@@ -35,4 +35,4 @@ $filters = array(
 
 $validator->filter($_POST, $filters);
 
-echo mysql_real_escape_string($_POST['password']);
+echo mysqli_real_escape_string($db->conn, $_POST['password']);

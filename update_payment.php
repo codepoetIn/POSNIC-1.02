@@ -163,12 +163,12 @@ echo $db->queryUniqueValue("select sum(balance) FROM  stock_entries where count1
                   <table class="form"  border="0" cellspacing="0" cellpadding="0">
 				  <?php
 				if(isset($_POST['id'])){
-	$id=mysql_real_escape_string($_POST['id']);
-			$balance=mysql_real_escape_string($_POST['balance']);
-			$payment=mysql_real_escape_string($_POST['paid']);
-			$customer=mysql_real_escape_string($_POST['customer']);
-			$subtotal=mysql_real_escape_string($_POST['total']);
-			$newpayment=mysql_real_escape_string($_POST['new_payment']);
+	$id=mysqli_real_escape_string($db->conn, $_POST['id']);
+			$balance=mysqli_real_escape_string($db->conn, $_POST['balance']);
+			$payment=mysqli_real_escape_string($db->conn, $_POST['paid']);
+			$customer=mysqli_real_escape_string($db->conn, $_POST['customer']);
+			$subtotal=mysqli_real_escape_string($db->conn, $_POST['total']);
+			$newpayment=mysqli_real_escape_string($db->conn, $_POST['new_payment']);
 			$selected_date=$_POST['date'];
 		  	$selected_date=strtotime( $selected_date );
 			$mysqldate = date( 'Y-m-d', $selected_date );

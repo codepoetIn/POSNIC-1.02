@@ -13,7 +13,7 @@ $db = new DB($base, $server, $user, $pass);
 
 /************************** Basic Queries: **********************************/
 
-// Do a query (return the same as mysql_query):
+// Do a query (return the same as mysqli_query($db->conn, ):
 $result = $db->query("SELECT * FROM People");
 $result = $db->query("SELECT * FROM People", true); // With DEBUG
 

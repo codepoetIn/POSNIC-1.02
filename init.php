@@ -16,7 +16,7 @@ header("location:index.php?msg=Please%20login%20to%20access%20admin%20area%20!&t
 
 	require "lib/gump.class.php";
 	
-	$gump = new GUMP(); 
+	$gump = new GUMP($config['database'], $config['host'], $config['username'], $config['password']); 
 	
 	
 	// Messages Settings

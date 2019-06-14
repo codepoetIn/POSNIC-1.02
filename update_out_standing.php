@@ -144,12 +144,12 @@ function numbersonly(e){
 				  <?php
 				if(isset($_POST['id'])){
 		
-			$id=mysql_real_escape_string($_POST['id']);
-			$balance=mysql_real_escape_string($_POST['balance']);
-			$payment=mysql_real_escape_string($_POST['payment']);
-			$supplier=mysql_real_escape_string($_POST['supplier']);
-			$subtotal=mysql_real_escape_string($_POST['total']);
-			$newpayment=mysql_real_escape_string($_POST['new_payment']);
+			$id=mysqli_real_escape_string($db->conn, $_POST['id']);
+			$balance=mysqli_real_escape_string($db->conn, $_POST['balance']);
+			$payment=mysqli_real_escape_string($db->conn, $_POST['payment']);
+			$supplier=mysqli_real_escape_string($db->conn, $_POST['supplier']);
+			$subtotal=mysqli_real_escape_string($db->conn, $_POST['total']);
+			$newpayment=mysqli_real_escape_string($db->conn, $_POST['new_payment']);
 			$selected_date=$_POST['date'];
 		  	$selected_date=strtotime( $selected_date );
 			$mysqldate = date( 'Y-m-d H:i:s', $selected_date );

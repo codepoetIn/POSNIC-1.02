@@ -385,15 +385,15 @@ function quantity_chnage(e){
 				if(isset($_POST['supplier']) and isset($_POST['stock_name']))
 
             {
-			$billnumber=mysql_real_escape_string($_POST['bill_no']);
-			$autoid=mysql_real_escape_string($_POST['id']);
+			$billnumber=mysqli_real_escape_string($db->conn, $_POST['bill_no']);
+			$autoid=mysqli_real_escape_string($db->conn, $_POST['id']);
 			
-			$supplier=mysql_real_escape_string($_POST['supplier']);
+			$supplier=mysqli_real_escape_string($db->conn, $_POST['supplier']);
 
-			$payment=mysql_real_escape_string($_POST['payment']);
-			$balance=mysql_real_escape_string($_POST['balance']);
-                        $address=mysql_real_escape_string($_POST['address']);
-			$contact=mysql_real_escape_string($_POST['contact']);
+			$payment=mysqli_real_escape_string($db->conn, $_POST['payment']);
+			$balance=mysqli_real_escape_string($db->conn, $_POST['balance']);
+                        $address=mysqli_real_escape_string($db->conn, $_POST['address']);
+			$contact=mysqli_real_escape_string($db->conn, $_POST['contact']);
                          $count = $db->countOf("supplier_details", "supplier_name='$supplier'");
 							if($count==0)
 							{
@@ -406,8 +406,8 @@ function quantity_chnage(e){
 		  	$selected_date=strtotime( $selected_date );
 			$mysqldate = date( 'Y-m-d H:i:s', $selected_date );
 			$due=$mysqldate;
-			$mode=mysql_real_escape_string($_POST['mode']);
-			$description=mysql_real_escape_string($_POST['description']);
+			$mode=mysqli_real_escape_string($db->conn, $_POST['mode']);
+			$description=mysqli_real_escape_string($db->conn, $_POST['description']);
 			
 			$namet=$_POST['stock_name'];
 			$quantityt=$_POST['quanitity'];
@@ -415,7 +415,7 @@ function quantity_chnage(e){
 			$sratet=$_POST['sell'];
 			$totalt=$_POST['total'];
 			
-			$subtotal=mysql_real_escape_string($_POST['subtotal']);
+			$subtotal=mysqli_real_escape_string($db->conn, $_POST['subtotal']);
 			
 			$username=$_SESSION['username'];
 			

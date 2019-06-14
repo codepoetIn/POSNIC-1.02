@@ -148,8 +148,8 @@ include_once("init.php");
 					} else {
 						
 						
-							$name=mysql_real_escape_string($_POST['name']);
-							$address=mysql_real_escape_string($_POST['address']);
+							$name=mysqli_real_escape_string($db->conn, $_POST['name']);
+							$address=mysqli_real_escape_string($db->conn, $_POST['address']);
 							
 						
 						$count = $db->countOf("category_details", "category_name='$name'");

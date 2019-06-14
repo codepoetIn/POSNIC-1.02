@@ -141,13 +141,13 @@ function numbersonly(e){
 
             {
 			
-			$id=mysql_real_escape_string($_POST['id']);
-			$name=  trim(mysql_real_escape_string($_POST['name']));
-			$sell=trim(mysql_real_escape_string($_POST['sell']));
-			$cost=trim(mysql_real_escape_string($_POST['cost']));
-			$Category=trim(mysql_real_escape_string($_POST['Category']));
-			$date=trim(mysql_real_escape_string($_POST['date']));
-			$supplier=trim(mysql_real_escape_string($_POST['supplier']));
+			$id=mysqli_real_escape_string($db->conn, $_POST['id']);
+			$name=  trim(mysqli_real_escape_string($db->conn, $_POST['name']));
+			$sell=trim(mysqli_real_escape_string($db->conn, $_POST['sell']));
+			$cost=trim(mysqli_real_escape_string($db->conn, $_POST['cost']));
+			$Category=trim(mysqli_real_escape_string($db->conn, $_POST['Category']));
+			$date=trim(mysqli_real_escape_string($db->conn, $_POST['date']));
+			$supplier=trim(mysqli_real_escape_string($db->conn, $_POST['supplier']));
 			
 			
 				

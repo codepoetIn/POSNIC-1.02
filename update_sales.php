@@ -446,19 +446,19 @@ document.getElementById('payable_amount').value=parseFloat(document.getElementBy
 				if(isset($_POST['supplier']) and isset($_POST['stock_name']))
 
             {
-			$billnumber=mysql_real_escape_string($_POST['bill_no']);
-			$autoid1=mysql_real_escape_string($_POST['id']);
+			$billnumber=mysqli_real_escape_string($db->conn, $_POST['bill_no']);
+			$autoid1=mysqli_real_escape_string($db->conn, $_POST['id']);
 			
-			$customer=mysql_real_escape_string($_POST['supplier']);
-							$address=mysql_real_escape_string($_POST['address']);
-							$contact=mysql_real_escape_string($_POST['contact']);			   
+			$customer=mysqli_real_escape_string($db->conn, $_POST['supplier']);
+							$address=mysqli_real_escape_string($db->conn, $_POST['address']);
+							$contact=mysqli_real_escape_string($db->conn, $_POST['contact']);			   
                                                      $count = $db->countOf("customer_details", "customer_name='$customer'");
 							if($count==0)
 							{
                                                          $db->query("insert into customer_details(customer_name,customer_address,customer_contact1) values('$customer','$address','$contact')");   
                                                         }
-			$payment=mysql_real_escape_string($_POST['payment']);
-			$balance=mysql_real_escape_string($_POST['balance']);
+			$payment=mysqli_real_escape_string($db->conn, $_POST['payment']);
+			$balance=mysqli_real_escape_string($db->conn, $_POST['balance']);
 			
 				$newvalue =$balance;
 				$oldvalue = $db->queryUniqueValue("SELECT balance FROM customer_details WHERE customer_name='$customer'");
@@ -468,7 +468,7 @@ document.getElementById('payable_amount').value=parseFloat(document.getElementBy
 		  	$selected_date=strtotime( $selected_date );
 			$mysqldate = date( 'Y-m-d H:i:s', $selected_date );
 			$due=$mysqldate;
-			$mode=mysql_real_escape_string($_POST['mode']);
+			$mode=mysqli_real_escape_string($db->conn, $_POST['mode']);
 			
 			
 				
@@ -482,8 +482,8 @@ document.getElementById('payable_amount').value=parseFloat(document.getElementBy
 		  	$selected_date=strtotime( $selected_date );
 			$mysqldate = date( 'Y-m-d H:i:s', $selected_date );
 			$due=$mysqldate;
-			$mode=mysql_real_escape_string($_POST['mode']);
-			$description=mysql_real_escape_string($_POST['description']);
+			$mode=mysqli_real_escape_string($db->conn, $_POST['mode']);
+			$description=mysqli_real_escape_string($db->conn, $_POST['description']);
 			
 			$namet=$_POST['stock_name'];
 			$quantityt=$_POST['quanitity'];
@@ -498,16 +498,16 @@ document.getElementById('payable_amount').value=parseFloat(document.getElementBy
                         }
                        
 			$totalt=$_POST['total'];
-			$payable=mysql_real_escape_string($_POST['subtotal']);
-			$discount=mysql_real_escape_string($_POST['discount']);
-			$dis_amount=mysql_real_escape_string($_POST['dis_amount']);
+			$payable=mysqli_real_escape_string($db->conn, $_POST['subtotal']);
+			$discount=mysqli_real_escape_string($db->conn, $_POST['discount']);
+			$dis_amount=mysqli_real_escape_string($db->conn, $_POST['dis_amount']);
                         if($_POST['dis_amount']==""){
                          $dis_amount=00;   
                         }
                         if($_POST['discount']==""){
                          $discount=00;   
                         }
-			$subtotal=mysql_real_escape_string($_POST['payable']);
+			$subtotal=mysqli_real_escape_string($db->conn, $_POST['payable']);
 							
 			$username=$_SESSION['username'];
 			

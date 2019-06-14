@@ -12,8 +12,8 @@ include_once("init.php");
 	<!-- Stylesheets -->
 	<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet'>
 	<link rel="stylesheet" href="css/style.css">
-        <link rel="stylesheet" href="js/date_pic/date_input.css">
-        <link rel="stylesheet" href="lib/auto/css/jquery.autocomplete.css">
+  <link rel="stylesheet" href="js/date_pic/date_input.css">
+  <link rel="stylesheet" href="lib/auto/css/jquery.autocomplete.css">
 	
 	<!-- Optimize for mobile devices -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -469,50 +469,49 @@ function discount_type(){
 					} else {
                                             $username = $_SESSION['username'];
                                             
-							$stockid=mysql_real_escape_string($_POST['stockid']);
+							$stockid=mysqli_real_escape_string($db->conn, $_POST['stockid']);
 						
-							$bill_no =mysql_real_escape_string($_POST['bill_no']);
-							$customer=mysql_real_escape_string($_POST['supplier']);
-							$address=mysql_real_escape_string($_POST['address']);
-							$contact=mysql_real_escape_string($_POST['contact']);			   
+							$bill_no =mysqli_real_escape_string($db->conn, $_POST['bill_no']);
+							$customer=mysqli_real_escape_string($db->conn, $_POST['supplier']);
+							$address=mysqli_real_escape_string($db->conn, $_POST['address']);
+							$contact=mysqli_real_escape_string($db->conn, $_POST['contact']);			   
                                                      $count = $db->countOf("customer_details", "customer_name='$customer'");
-							if($count==0)
-							{
-                                                         $db->query("insert into customer_details(customer_name,customer_address,customer_contact1) values('$customer','$address','$contact')");   
-                                                        }
-                                                        $stock_name=$_POST['stock_name'];
+							if((int)$count==0)
+							{ $db->query("insert into customer_details(customer_name,customer_address,customer_contact1) values('$customer','$address','$contact')");   
+                }
+              $stock_name=$_POST['stock_name'];
 							$quty=$_POST['quty'];
-							$date=mysql_real_escape_string($_POST['date']);
+							$date=mysqli_real_escape_string($db->conn, $_POST['date']);
 							$sell=$_POST['sell'];
 							$total=$_POST['total'];
 							$payable=$_POST['subtotal'];
-							$description=mysql_real_escape_string($_POST['description']);
-							$due=mysql_real_escape_string($_POST['duedate']);
-							$payment=mysql_real_escape_string($_POST['payment']);
-							$discount=mysql_real_escape_string($_POST['discount']);
+							$description=mysqli_real_escape_string($db->conn, $_POST['description']);
+							$due=mysqli_real_escape_string($db->conn, $_POST['duedate']);
+							$payment=mysqli_real_escape_string($db->conn, $_POST['payment']);
+							$discount=mysqli_real_escape_string($db->conn, $_POST['discount']);
                                                         if($discount==""){
                                                             $discount=00;
                                                         }
-							$dis_amount=mysql_real_escape_string($_POST['dis_amount']);
+							$dis_amount=mysqli_real_escape_string($db->conn, $_POST['dis_amount']);
 							if($dis_amount==""){
-                                                            $dis_amount=00;
-                                                        }
-                                                        $subtotal=mysql_real_escape_string($_POST['payable']);
-							$balance=mysql_real_escape_string($_POST['balance']);
-							$mode=mysql_real_escape_string($_POST['mode']);
-							$tax=mysql_real_escape_string($_POST['tax']);
-                                                        if($tax==""){
-                                                            $tax=00;
-                                                        }
-							$tax_dis=mysql_real_escape_string($_POST['tax_dis']);
-                                                        $temp_balance = $db->queryUniqueValue("SELECT balance FROM customer_details WHERE customer_name='$customer'");
-                                                        $temp_balance = (int) $temp_balance +  (int) $balance;
-                                                        $db->execute("UPDATE customer_details SET balance=$temp_balance WHERE customer_name='$customer'");
-                                                        $selected_date=$_POST['due'];
-                                                        $selected_date=strtotime( $selected_date );
-                                                        $mysqldate = date( 'Y-m-d H:i:s', $selected_date );
-                                                        $due=$mysqldate;
-                                          $max = $db->maxOfAll("id", "stock_entries");
+                $dis_amount=00;
+              }
+              $subtotal=mysqli_real_escape_string($db->conn, $_POST['payable']);
+							$balance=mysqli_real_escape_string($db->conn, $_POST['balance']);
+							$mode=mysqli_real_escape_string($db->conn, $_POST['mode']);
+							$tax=mysqli_real_escape_string($db->conn, $_POST['tax']);
+              if($tax==""){
+                  $tax=00;
+              }
+							$tax_dis=mysqli_real_escape_string($db->conn, $_POST['tax_dis']);
+              $temp_balance = $db->queryUniqueValue("SELECT balance FROM customer_details WHERE customer_name='$customer'");
+              $temp_balance = (int) $temp_balance +  (int) $balance;
+              $db->execute("UPDATE customer_details SET balance=$temp_balance WHERE customer_name='$customer'");
+              $selected_date=$_POST['due'];
+              $selected_date=strtotime( $selected_date );
+              $mysqldate = date( 'Y-m-d H:i:s', $selected_date );
+              $due=$mysqldate;
+              $max = $db->maxOfAll("id", "stock_entries");
 					  $max=$max+1;
 					  $autoid="SD".$max."";
                                             for($i=0;$i<count($stock_name);$i++)
@@ -530,7 +529,7 @@ function discount_type(){
 		
 			$count = $db->queryUniqueValue("SELECT quantity FROM stock_avail WHERE name='$name1'");
 	
-			if($count >= 1)
+			if((int)$count >= 1)
 			{
 			   
 			 
@@ -565,13 +564,11 @@ function discount_type(){
 			
 				
                         
-			}		
-                          $msg="<br><font color=green size=6px >Sales Added successfully Ref: [". $_POST['stockid']."] !</font>" ;
-				header("Location: add_sales.php?msg=$msg");
-							
-			
-			
-                        			echo "<script>window.open('add_sales_print.php?sid=$autoid','myNewWinsr','width=620,height=800,toolbar=0,menubar=no,status=no,resizable=yes,location=no,directories=no');</script>";
+			}
+      $msg="<br><font color=green size=6px >Sales Added successfully Ref: [". $_POST['stockid']."] !</font>" ;
+      echo $msg;
+      //header("Location: add_sales.php?msg=$msg");
+      echo "<script>window.open('add_sales_print.php?sid=$autoid','myNewWinsr','width=620,height=800,toolbar=0,menubar=no,status=no,resizable=yes,location=no,directories=no');</script>";
                         			//echo "<script>window.open('add_sales_print.php?sid=$autoid','myNewWinsr','width=620,height=800,toolbar=0,menubar=no,status=no,resizable=yes,location=no,directories=no');</script>";
                         //$msg="<br><font color=green size=6px >Parchase order Added successfully Ref: [". $_POST['stockid']."] !</font>" ;
 				//header("Location: add_purchase.php?msg=$msg");

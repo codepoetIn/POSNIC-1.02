@@ -199,12 +199,12 @@ function numbersonly(e){
 					} else {
 						
 						
-							$name=mysql_real_escape_string($_POST['name']);
-							$stockid=mysql_real_escape_string($_POST['stockid']);
-							$sell=mysql_real_escape_string($_POST['sell']);
-							$cost=mysql_real_escape_string($_POST['cost']);
-							$supplier=mysql_real_escape_string($_POST['supplier']);
-							$category=mysql_real_escape_string($_POST['category']);
+							$name=mysqli_real_escape_string($db->conn, $_POST['name']);
+							$stockid=mysqli_real_escape_string($db->conn, $_POST['stockid']);
+							$sell=mysqli_real_escape_string($db->conn, $_POST['sell']);
+							$cost=mysqli_real_escape_string($db->conn, $_POST['cost']);
+							$supplier=mysqli_real_escape_string($db->conn, $_POST['supplier']);
+							$category=mysqli_real_escape_string($db->conn, $_POST['category']);
 							
 						
 						$count = $db->countOf("stock_details", "stock_id ='$stockid'");

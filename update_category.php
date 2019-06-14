@@ -127,9 +127,9 @@ include_once("init.php");
 
             {
 			
-			$id=mysql_real_escape_string($_POST['id']);
-			$name=  trim(mysql_real_escape_string($_POST['name']));
-			$address=trim(mysql_real_escape_string($_POST['address']));
+			$id=mysqli_real_escape_string($db->conn, $_POST['id']);
+			$name=  trim(mysqli_real_escape_string($db->conn, $_POST['name']));
+			$address=trim(mysqli_real_escape_string($db->conn, $_POST['address']));
 			
 			
 			
